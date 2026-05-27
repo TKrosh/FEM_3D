@@ -127,22 +127,22 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="BiLinearLagrange.cpp" />
     <ClCompile Include="ConsoleApplication3.cpp" />
-    <ClCompile Include="Mesh.cpp" />
-    <ClCompile Include="Reader.cpp" />
-    <ClCompile Include="TreeLinearLagrange.cpp" />
-    <ClCompile Include="Vector3D.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="BiLinearLagrange.h" />
-    <ClInclude Include="Mesh.h" />
-    <ClInclude Include="Reader.h" />
-    <ClInclude Include="TreeLinearLagrange.h" />
-    <ClInclude Include="Vector3D.h" />
+    <ClCompile Include="Core\Mesh.cpp" />
+    <ClCompile Include="Core\Reader.cpp" />
+    <ClCompile Include="Core\Vector3D.cpp" />
+    <ClCompile Include="Elements\BiLinearLagrange.cpp" />
+    <ClCompile Include="Elements\TreeLinearLagrange.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="SimpleMesh.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Core\Mesh.h" />
+    <ClInclude Include="Core\Reader.h" />
+    <ClInclude Include="Core\Vector3D.h" />
+    <ClInclude Include="Elements\BiLinearLagrange.h" />
+    <ClInclude Include="Elements\TreeLinearLagrange.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

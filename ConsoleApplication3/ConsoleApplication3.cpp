@@ -1,6 +1,6 @@
 ﻿#include <iostream>
-#include "Reader.h"
-#include "Mesh.h"
+#include "Core/Reader.h"
+#include "Core/Mesh.h"
 
 int main()
 {

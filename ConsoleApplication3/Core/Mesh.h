@@ -1,8 +1,8 @@
 #pragma once
 #include <vector>
 #include "Vector3D.h"
-#include "TreeLinearLagrange.h"
-#include "BiLinearLagrange.h"
+#include "../Elements/TreeLinearLagrange.h"
+#include "../Elements/BiLinearLagrange.h"
 #include <iostream>
 
 class Mesh
