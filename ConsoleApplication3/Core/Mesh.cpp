@@ -17,9 +17,9 @@ void Mesh::SetNumberOfElements(int n)
 	CountOfElements = n;
 	Elements.reserve(n);
 }
-void Mesh::AddElement(std::vector<int> indexes, int material)
+void Mesh::AddElement(std::vector<int> indexes, int material, double hx, double hy, double hz)
 {
-	Elements.emplace_back(TreeLinearLagrange(indexes, material));
+	Elements.emplace_back(TreeLinearLagrange(indexes, material, hx, hy, hz));
 }
 
 //Boundary Elements
@@ -50,4 +50,19 @@ void Mesh::ShowInfo()
 	{
 		std::cout << BoundaryElements[i] << std::endl;
 	}
+}
+
+Vector3D Mesh::PointToGlobal(Vector3D p, TreeLinearLagrange& elem)
+{
+	Vector3D result(0.0, 0.0, 0.0);
+	for (int i = 0; i < elem.n; ++i)
+	{
+		double N = elem.GetBasis(p.X, p.Y, p.Z, i); 
+		int globalNodeIndex = elem.CoordsIndexes[i];
+		const Vector3D& node = Vertexes[globalNodeIndex];
+		result.X += N * node.X;
+		result.Y += N * node.Y;
+		result.Z += N * node.Z;
+	}
+	return result;
 }

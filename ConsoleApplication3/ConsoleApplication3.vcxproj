@@ -127,22 +127,38 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Core\Assembler.cpp" />
     <ClCompile Include="ConsoleApplication3.cpp" />
+    <ClCompile Include="Core\ElipticProblem.cpp" />
+    <ClCompile Include="Core\GiperbolicPrioblem.cpp" />
     <ClCompile Include="Core\Mesh.cpp" />
     <ClCompile Include="Core\Reader.cpp" />
     <ClCompile Include="Core\Vector3D.cpp" />
     <ClCompile Include="Elements\BiLinearLagrange.cpp" />
     <ClCompile Include="Elements\TreeLinearLagrange.cpp" />
+    <ClCompile Include="Elements\ElipticMaterial.cpp" />
+    <ClCompile Include="Matrix\DenseStorage.cpp" />
+    <ClCompile Include="Matrix\GlobalMatrix.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="SimpleMesh.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Core\Assembler.h" />
+    <ClInclude Include="Core\ElipticProblem.h" />
+    <ClInclude Include="Core\GiperbolicPrioblem.h" />
     <ClInclude Include="Core\Mesh.h" />
     <ClInclude Include="Core\Reader.h" />
     <ClInclude Include="Core\Vector3D.h" />
     <ClInclude Include="Elements\BiLinearLagrange.h" />
     <ClInclude Include="Elements\TreeLinearLagrange.h" />
+    <ClInclude Include="Elements\ElipticMaterial.h" />
+    <ClInclude Include="Matrix\DenseStorage.h" />
+    <ClInclude Include="Matrix\GlobalMatrix.h" />
+    <ClInclude Include="resource.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="ConsoleApplication3.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -7,7 +7,8 @@
 
 class Mesh
 {
-private:
+public:
+
 	int CountOfVertexes = 0;
 	std::vector<Vector3D> Vertexes;
 
@@ -16,7 +17,7 @@ private:
 
 	int CountOfBoundaryElements = 0;
 	std::vector<BiLinearLagrange> BoundaryElements;
-public:
+
 	Mesh() {};
 	void ShowInfo();
 
@@ -24,9 +25,11 @@ public:
 	void AddVertex(double x, double y, double z);
 
 	void SetNumberOfElements(int n);
-	void AddElement(std::vector<int> indexes, int material);
+	void AddElement(std::vector<int> indexes, int material, double hx, double hy, double hz);
 
 	void SetNumberOfBoundaryElements(int n);
 	void AddBoundaryElement(std::vector<int> indexes, int material, int BoundaryIndex);
+
+	Vector3D PointToGlobal(Vector3D p, TreeLinearLagrange& elem);
 };
 

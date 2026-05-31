@@ -24,7 +24,26 @@ void Reader::ReadMeshFromFile(const char* FileName, Mesh& TaskMesh)
 	{
 		for (int j = 0; j < 8; j++) InfoFile >> indexes[j];
 		InfoFile >> material;
-		TaskMesh.AddElement(indexes, material);
+
+		/* we need some way to find : hx, hy, hz;
+		 let's do that little bit si,ple
+		if it doesn't work will see
+		 
+			7------6
+           /      /|
+		  /      / |
+		 4------5  |
+		 |  3---|--2
+	   hx| / hy | /        z  y
+		 |/ hx  |/         |/
+		 0------1          *-> x
+		 */
+		Vector3D P0 = TaskMesh.Vertexes[indexes[0]];
+		double hx = TaskMesh.Vertexes[indexes[1]].X - P0.X;
+		double hy = TaskMesh.Vertexes[indexes[3]].Y - P0.Y;
+		double hz = TaskMesh.Vertexes[indexes[4]].Z - P0.Z;
+
+		TaskMesh.AddElement(indexes, material, hx, hy, hz);
 	}
 
 	// time to start read boundary elements

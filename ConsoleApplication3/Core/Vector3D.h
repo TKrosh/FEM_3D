@@ -11,7 +11,6 @@ public:
 	Vector3D(double x, double y, double z);
 	Vector3D();
 
-	
 	friend std::ostream& operator<<(std::ostream& os, Vector3D& v)
 	{
 		os << '{' << v.X << ", " << v.Y << ", " << v.Z << '}';

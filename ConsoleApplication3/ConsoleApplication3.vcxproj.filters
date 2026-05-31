@@ -13,25 +13,52 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Исходные файлы\core">
+      <UniqueIdentifier>{e45fb541-70c0-489c-a7af-092b6e681ed7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\elements">
+      <UniqueIdentifier>{3d2ba67c-325f-4233-8afd-87e5aa6e4daa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\Storage">
+      <UniqueIdentifier>{fa5139b7-8f53-47c9-aea5-89267c65f39e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ConsoleApplication3.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="Elements\BiLinearLagrange.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
     <ClCompile Include="Core\Mesh.cpp">
-      <Filter>Исходные файлы</Filter>
+      <Filter>Исходные файлы\core</Filter>
     </ClCompile>
     <ClCompile Include="Core\Reader.cpp">
-      <Filter>Исходные файлы</Filter>
+      <Filter>Исходные файлы\core</Filter>
     </ClCompile>
     <ClCompile Include="Core\Vector3D.cpp">
-      <Filter>Исходные файлы</Filter>
+      <Filter>Исходные файлы\core</Filter>
     </ClCompile>
     <ClCompile Include="Elements\TreeLinearLagrange.cpp">
-      <Filter>Исходные файлы</Filter>
+      <Filter>Исходные файлы\elements</Filter>
+    </ClCompile>
+    <ClCompile Include="Elements\BiLinearLagrange.cpp">
+      <Filter>Исходные файлы\elements</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\ElipticProblem.cpp">
+      <Filter>Исходные файлы\core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\GiperbolicPrioblem.cpp">
+      <Filter>Исходные файлы\core</Filter>
+    </ClCompile>
+    <ClCompile Include="Matrix\GlobalMatrix.cpp">
+      <Filter>Исходные файлы\Storage</Filter>
+    </ClCompile>
+    <ClCompile Include="Matrix\DenseStorage.cpp">
+      <Filter>Исходные файлы\Storage</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Assembler.cpp">
+      <Filter>Исходные файлы\core</Filter>
+    </ClCompile>
+    <ClCompile Include="Elements\ElipticMaterial.cpp">
+      <Filter>Исходные файлы\elements</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -55,5 +82,31 @@
     <ClInclude Include="Elements\TreeLinearLagrange.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\ElipticProblem.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\GiperbolicPrioblem.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="Matrix\GlobalMatrix.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="Matrix\DenseStorage.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Assembler.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="Elements\ElipticMaterial.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="ConsoleApplication3.rc">
+      <Filter>Файлы ресурсов</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>
