@@ -51,35 +51,99 @@ double TreeLinearLagrange::GetBasis(double x, double y, double z, int index)
 	return val;
 }
 
-double TreeLinearLagrange::GetBasisDerivativeValue(double x, double y, double z, int index)
+double TreeLinearLagrange::GetBasisDerivativeValue(double x, double y, double z, int i, int j)
 {
-	double val;
-	switch (index)
+	Vector3D fi_i = Vector3D();
+	Vector3D fi_j = Vector3D();
+
+	switch (i)
 	{
 	case 0:
-		val = d_BasisF1_X(x) * d_BasisF1_Y(y) * d_BasisF1_Z(z);
+		fi_i.X = d_BasisF1_X(x) * BasisF1_Y(y) * BasisF1_Z(z) / Hx;
+		fi_i.Y = BasisF1_X(x) * d_BasisF1_Y(y) * BasisF1_Z(z) / Hy;
+		fi_i.Z = BasisF1_X(x) * BasisF1_Y(y) * d_BasisF1_Z(z) / Hz;
 		break;
 	case 1:
-		val = d_BasisF2_X(x) * d_BasisF1_Y(y) * d_BasisF1_Z(z);
+		fi_i.X = d_BasisF2_X(x) * BasisF1_Y(y) * BasisF1_Z(z) / Hx;
+		fi_i.Y = BasisF2_X(x) * d_BasisF1_Y(y) * BasisF1_Z(z) / Hy;
+		fi_i.Z = BasisF2_X(x) * BasisF1_Y(y) * d_BasisF1_Z(z) / Hz;
 		break;
 	case 2:
-		val = d_BasisF2_X(x) * d_BasisF2_Y(y) * d_BasisF1_Z(z);
+		fi_i.X = d_BasisF2_X(x) * BasisF2_Y(y) * BasisF1_Z(z) / Hx;
+		fi_i.Y = BasisF2_X(x) * d_BasisF2_Y(y) * BasisF1_Z(z) / Hy;
+		fi_i.Z = BasisF2_X(x) * BasisF2_Y(y) * d_BasisF1_Z(z) / Hz;
 		break;
 	case 3:
-		val = d_BasisF1_X(x) * d_BasisF2_Y(y) * d_BasisF1_Z(z);
+		fi_i.X = d_BasisF1_X(x) * BasisF2_Y(y) * BasisF1_Z(z) / Hx;
+		fi_i.Y = BasisF1_X(x) * d_BasisF2_Y(y) * BasisF1_Z(z) / Hy;
+		fi_i.Z = BasisF1_X(x) * BasisF2_Y(y) * d_BasisF1_Z(z) / Hz;
 		break;
 	case 4:
-		val = d_BasisF1_X(x) * d_BasisF1_Y(y) * d_BasisF2_Z(z);
+		fi_i.X = d_BasisF1_X(x) * BasisF1_Y(y) * BasisF2_Z(z) / Hx;
+		fi_i.Y = BasisF1_X(x) * d_BasisF1_Y(y) * BasisF2_Z(z) / Hy;
+		fi_i.Z = BasisF1_X(x) * BasisF1_Y(y) * d_BasisF2_Z(z) / Hz;
 		break;
 	case 5:
-		val = d_BasisF2_X(x) * d_BasisF1_Y(y) * d_BasisF2_Z(z);
+		fi_i.X = d_BasisF2_X(x) * BasisF1_Y(y) * BasisF2_Z(z) / Hx;
+		fi_i.Y = BasisF2_X(x) * d_BasisF1_Y(y) * BasisF2_Z(z) / Hy;
+		fi_i.Z = BasisF2_X(x) * BasisF1_Y(y) * d_BasisF2_Z(z) / Hz;
 		break;
 	case 6:
-		val = d_BasisF2_X(x) * d_BasisF2_Y(y) * d_BasisF2_Z(z);
+		fi_i.X = d_BasisF2_X(x) * BasisF2_Y(y) * BasisF2_Z(z) / Hx;
+		fi_i.Y = BasisF2_X(x) * d_BasisF2_Y(y) * BasisF2_Z(z) / Hy;
+		fi_i.Z = BasisF2_X(x) * BasisF2_Y(y) * d_BasisF2_Z(z) / Hz;
 		break;
 	case 7:
-		val = d_BasisF1_X(x) * d_BasisF2_Y(y) * d_BasisF2_Z(z);
+		fi_i.X = d_BasisF1_X(x) * BasisF2_Y(y) * BasisF2_Z(z) / Hx;
+		fi_i.Y = BasisF1_X(x) * d_BasisF2_Y(y) * BasisF2_Z(z) / Hy;
+		fi_i.Z = BasisF1_X(x) * BasisF2_Y(y) * d_BasisF2_Z(z) / Hz;
 		break;
 	}
-	return val;
+
+
+	switch (j)
+	{
+	case 0:
+		fi_j.X = d_BasisF1_X(x) * BasisF1_Y(y) * BasisF1_Z(z) / Hx;
+		fi_j.Y = BasisF1_X(x) * d_BasisF1_Y(y) * BasisF1_Z(z) / Hy;
+		fi_j.Z = BasisF1_X(x) * BasisF1_Y(y) * d_BasisF1_Z(z) / Hz;
+		break;
+	case 1:
+		fi_j.X = d_BasisF2_X(x) * BasisF1_Y(y) * BasisF1_Z(z) / Hx;
+		fi_j.Y = BasisF2_X(x) * d_BasisF1_Y(y) * BasisF1_Z(z) / Hy;
+		fi_j.Z = BasisF2_X(x) * BasisF1_Y(y) * d_BasisF1_Z(z) / Hz;
+		break;
+	case 2:
+		fi_j.X = d_BasisF2_X(x) * BasisF2_Y(y) * BasisF1_Z(z) / Hx;
+		fi_j.Y = BasisF2_X(x) * d_BasisF2_Y(y) * BasisF1_Z(z) / Hy;
+		fi_j.Z = BasisF2_X(x) * BasisF2_Y(y) * d_BasisF1_Z(z) / Hz;
+		break;
+	case 3:
+		fi_j.X = d_BasisF1_X(x) * BasisF2_Y(y) * BasisF1_Z(z) / Hx;
+		fi_j.Y = BasisF1_X(x) * d_BasisF2_Y(y) * BasisF1_Z(z) / Hy;
+		fi_j.Z = BasisF1_X(x) * BasisF2_Y(y) * d_BasisF1_Z(z) / Hz;
+		break;
+	case 4:
+		fi_j.X = d_BasisF1_X(x) * BasisF1_Y(y) * BasisF2_Z(z) / Hx;
+		fi_j.Y = BasisF1_X(x) * d_BasisF1_Y(y) * BasisF2_Z(z) / Hy;
+		fi_j.Z = BasisF1_X(x) * BasisF1_Y(y) * d_BasisF2_Z(z) / Hz;
+		break;
+	case 5:
+		fi_j.X = d_BasisF2_X(x) * BasisF1_Y(y) * BasisF2_Z(z) / Hx;
+		fi_j.Y = BasisF2_X(x) * d_BasisF1_Y(y) * BasisF2_Z(z) / Hy;
+		fi_j.Z = BasisF2_X(x) * BasisF1_Y(y) * d_BasisF2_Z(z) / Hz;
+		break;
+	case 6:
+		fi_j.X = d_BasisF2_X(x) * BasisF2_Y(y) * BasisF2_Z(z) / Hx;
+		fi_j.Y = BasisF2_X(x) * d_BasisF2_Y(y) * BasisF2_Z(z) / Hy;
+		fi_j.Z = BasisF2_X(x) * BasisF2_Y(y) * d_BasisF2_Z(z) / Hz;
+		break;
+	case 7:
+		fi_j.X = d_BasisF1_X(x) * BasisF2_Y(y) * BasisF2_Z(z) / Hx;
+		fi_j.Y = BasisF1_X(x) * d_BasisF2_Y(y) * BasisF2_Z(z) / Hy;
+		fi_j.Z = BasisF1_X(x) * BasisF2_Y(y) * d_BasisF2_Z(z) / Hz;
+		break;
+	}
+
+	return fi_i * fi_j;
 }

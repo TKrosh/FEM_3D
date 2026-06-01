@@ -29,7 +29,7 @@ void DenseStorage::test()
 	for (int i = 0; i < size; i++)
 	{
 		for (int j = 0; j < size; j++)
-			std::cout << " " << matrix[i][j] << " ";
+			std::cout  << matrix[i][j]<< "\t  ";
 		std::cout << std::endl;
 	}
 	std::cout << std::endl;
@@ -42,12 +42,23 @@ void DenseStorage::test()
 
 }
 
-void DenseStorage::AddLocalMatrix(TreeLinearLagrange elem, double** LocalMatrix)
+void DenseStorage::AddLocalMatrix(TreeLinearLagrange& elem, double** LocalMatrix)
 {
+	for (int i = 0; i < elem.n; i++)
+	{
+		for (int j = 0; j < elem.n; j++)
+		{
+			matrix[elem.CoordsIndexes[i]][elem.CoordsIndexes[j]] += LocalMatrix[i][j];
+		}
+	}
 }
 
-void DenseStorage::AddToRightPart(TreeLinearLagrange elem, std::vector<double> v)
+void DenseStorage::AddToRightPart(TreeLinearLagrange& elem, std::vector<double> v)
 {
+	for (int i = 0; i < elem.n; i++)
+	{
+		rightPart[elem.CoordsIndexes[i]] += v[i];
+	}
 }
 
 //void DenseStorage::AddDirihletBoundary(int index, double ug)

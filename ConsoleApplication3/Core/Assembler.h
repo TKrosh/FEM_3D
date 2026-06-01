@@ -9,11 +9,15 @@ public:
 	Assembler(Mesh& taskMesh) { TaskMesh = taskMesh; };
 	Assembler() { };
 
-	void CalculateStiffness(double (*f)(Vector3D),
-		TreeLinearLagrange elem,
-		double **& localStiffness);
+	void CalculateStiffness(double (*f)(Vector3D&),
+		TreeLinearLagrange& elem,
+		double ** localStiffness);
 
-	std::vector<double> CalculateLoad(double (*f)(Vector3D),
-		TreeLinearLagrange elem);
+	void CalculateMass(double (*f)(Vector3D&),
+		TreeLinearLagrange& elem,
+		double ** localMass);
+
+	std::vector<double> CalculateLoad(double (*f)(Vector3D&),
+		TreeLinearLagrange& elem);
 };
 

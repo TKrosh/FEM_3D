@@ -35,24 +35,35 @@ public:
 			G[i] = new double[n];
 		}
 
+		double** M = new double* [n];
+		for (int i = 0; i < n; i++)
+		{
+			M[i] = new double[n];
+		}
+
 		for (int i = 0; i < TaskMesh.CountOfElements; i++)
 		{
 			TreeLinearLagrange elem = TaskMesh.Elements[i];
 			assembler.CalculateStiffness(Materials[elem.MaterialIndex].Lambda, elem, G);
-
-			for (int i = 0; i < elem.n; i++)
-			{
-				for (int j = 0; j < elem.n; j++) std::cout << G[i][j] << " ";
-				std::cout << std::endl;
-			}
-
-			std::cout << std::endl;
+			assembler.CalculateMass(Materials[elem.MaterialIndex].Gamma, elem, M);
 			std::vector<double> RightPart = assembler.CalculateLoad(Materials[elem.MaterialIndex].F, elem);
-			for (int i = 0; i < elem.n; i++) std::cout << RightPart[i] << " ";
+
+			GlobalSLAU.AddLocalMatrix(elem, G);
+			GlobalSLAU.AddLocalMatrix(elem, M);
+			GlobalSLAU.AddToRightPart(elem, RightPart);
+
+			GlobalSLAU.test();
 		}
 
+		for (int i = 0; i < TaskMesh.CountOfBoundaryElements; i++)
+		{
+
+		}
+		
 		for (int r = 0; r < 2; r++) delete[] G[r];
 		delete[] G;
+
+		for (int r = 0; r < 2; r++) delete[] M[r];
+		delete[] M;
 	}
 };
-

@@ -11,6 +11,11 @@ public:
 	Vector3D(double x, double y, double z);
 	Vector3D();
 
+	friend double operator* (const Vector3D& v1, const Vector3D& v2)
+	{
+		return v1.X * v2.X + v1.Y * v2.Y + v1.Z * v2.Z;
+	}
+
 	friend std::ostream& operator<<(std::ostream& os, Vector3D& v)
 	{
 		os << '{' << v.X << ", " << v.Y << ", " << v.Z << '}';

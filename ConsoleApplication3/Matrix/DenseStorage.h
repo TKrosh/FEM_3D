@@ -15,8 +15,8 @@ public:
 	void matrixClear();
 	void test();
 
-	void AddLocalMatrix(TreeLinearLagrange elem, double** LocalMatrix);
-	void AddToRightPart(TreeLinearLagrange elem, std::vector<double> v);
+	void AddLocalMatrix(TreeLinearLagrange& elem, double** LocalMatrix);
+	void AddToRightPart(TreeLinearLagrange& elem, std::vector<double> v);
 
 	//void AddDirihletBoundary(int index, double ug);
 	//void AddNeumannBoundary(int index, double theta);

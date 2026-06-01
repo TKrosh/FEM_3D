@@ -25,12 +25,12 @@ public:
 		storage.test();
 	};
 
-	void AddLocalMatrix(TreeLinearLagrange elem, double** LocalMatrix)
+	void AddLocalMatrix(TreeLinearLagrange& elem, double** LocalMatrix)
 	{
 		storage.AddLocalMatrix(elem, LocalMatrix);
 	};
 
-	void AddToRightPart(TreeLinearLagrange elem, std::vector<double> v)
+	void AddToRightPart(TreeLinearLagrange& elem, std::vector<double> v)
 	{
 		storage.AddToRightPart(elem, v);
 	};

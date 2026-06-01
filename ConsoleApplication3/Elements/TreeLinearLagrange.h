@@ -37,7 +37,8 @@ public:
 
 	double GetBasis(double x, double y, double z, int index);
 
-	double GetBasisDerivativeValue(double x, double y, double z, int index);
+	// grad fi_i * grad fi_j
+	double GetBasisDerivativeValue(double x, double y, double z, int i, int j);
 
 	//basis
 	double BasisF1_X(double x)
@@ -66,6 +67,7 @@ public:
 	{
 		return z;
 	};
+
 	//Basis derivative
 	double d_BasisF1_X(double x)
 	{

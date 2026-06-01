@@ -142,6 +142,7 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="SimpleMesh.txt" />
+    <Text Include="twoCube.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\Assembler.h" />

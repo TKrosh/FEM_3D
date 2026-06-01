@@ -65,6 +65,9 @@
     <Text Include="SimpleMesh.txt">
       <Filter>Файлы ресурсов</Filter>
     </Text>
+    <Text Include="twoCube.txt">
+      <Filter>Файлы ресурсов</Filter>
+    </Text>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Elements\BiLinearLagrange.h">
