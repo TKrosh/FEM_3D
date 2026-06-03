@@ -61,16 +61,21 @@ void DenseStorage::AddToRightPart(TreeLinearLagrange& elem, std::vector<double> 
 	}
 }
 
-//void DenseStorage::AddDirihletBoundary(int index, double ug)
-//{
-//	for (int i = 0; i < size; i++)
-//	{
-//		matrix[index][i] = 0.0;
-//	}
-//	matrix[index][index] = 1.0;
-//	rightPart[index] = ug;
-//}
-//
+void DenseStorage::AddDirihletBoundary(BiLinearLagrange& elem, std::vector<double> v)
+{
+	double weight = 1;
+	for (int i = 0; i < elem.n; i++)
+	{
+		int elemIndex = elem.CoordsIndexes[i];
+		for (int j = 0; j < size; j++)
+		{
+			matrix[elemIndex][j] = 0.0;
+		}
+		matrix[elemIndex][elemIndex] = weight;
+		rightPart[elemIndex] = v[i] * weight;
+	}
+}
+
 //void DenseStorage::AddNeumannBoundary(int index, double theta)
 //{
 //	rightPart[index] += theta;

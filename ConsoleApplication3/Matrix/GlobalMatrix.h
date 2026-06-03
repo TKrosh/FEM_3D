@@ -1,5 +1,6 @@
 #pragma once
 #include "../Elements/TreeLinearLagrange.h"
+#include "../Elements/BiLinearLagrange.h"
 
 template<typename StoragePolicy>
 class GlobalMatrix
@@ -35,19 +36,19 @@ public:
 		storage.AddToRightPart(elem, v);
 	};
 
-	//void AddDirihletBoundary(int index, double ug)
-	//{
-	//	storage.AddDirihletBoundary(index, ug);
-	//};
+	void AddDirihletBoundary(BiLinearLagrange& elem, std::vector<double> v)
+	{
+		storage.AddDirihletBoundary(elem, v);
+	};
 
-	//void AddNeumannBoundary(int index, double theta)
-	//{
-	//	storage.AddNeumannBoundary(index, theta);
-	//};
+	void AddNeumannBoundary(int index, double theta)
+	{
+		storage.AddNeumannBoundary(index, theta);
+	};
 
-	//void AddRobinBoundary(int index, double u_Betta, double betta)
-	//{
-	//	storage.AddRobinBoundary(index, u_Betta, betta);
-	//};
+	void AddRobinBoundary(int index, double u_Betta, double betta)
+	{
+		storage.AddRobinBoundary(index, u_Betta, betta);
+	};
 };
 

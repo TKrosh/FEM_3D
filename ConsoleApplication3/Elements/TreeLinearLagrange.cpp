@@ -16,6 +16,9 @@ TreeLinearLagrange::TreeLinearLagrange(std::vector<int> coordsIndexes, int mater
 	jacobian = Hx * Hy * Hz;
 
 	MaterialIndex = material;
+
+	n = 8;
+	m = w.size(); // amount of weight;
 }
 
 double TreeLinearLagrange::GetBasis(double x, double y, double z, int index)

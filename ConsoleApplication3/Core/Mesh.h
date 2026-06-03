@@ -3,7 +3,9 @@
 #include "Vector3D.h"
 #include "../Elements/TreeLinearLagrange.h"
 #include "../Elements/BiLinearLagrange.h"
+#include "../Elements/LinearElemTemplate.h"
 #include <iostream>
+
 
 class Mesh
 {
@@ -28,8 +30,9 @@ public:
 	void AddElement(std::vector<int> indexes, int material, double hx, double hy, double hz);
 
 	void SetNumberOfBoundaryElements(int n);
-	void AddBoundaryElement(std::vector<int> indexes, int material, int BoundaryIndex);
+	void AddBoundaryElement(std::vector<int> indexes, int material, int BoundaryIndex,
+		Vector3D& _e1, Vector3D& _e2);
 
-	Vector3D PointToGlobal(Vector3D p, TreeLinearLagrange& elem);
+	Vector3D PointToGlobal(Vector3D p, LinearElemTemplate& elem);
 };
 

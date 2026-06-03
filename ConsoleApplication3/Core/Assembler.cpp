@@ -72,3 +72,17 @@ std::vector<double> Assembler::CalculateLoad(double (*f)(Vector3D&),
 	}
 	return resultVector;
 }
+
+std::vector<double> Assembler::CallculateDirihletVector(double(*f)(Vector3D&, double t), 
+	BiLinearLagrange& elem)
+{
+	std::vector<double> res;
+
+
+	for (int i : elem.CoordsIndexes)
+	{
+		res.push_back(f(TaskMesh.Vertexes[i], 0));
+	}
+
+	return res;
+}

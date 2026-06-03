@@ -19,5 +19,8 @@ public:
 
 	std::vector<double> CalculateLoad(double (*f)(Vector3D&),
 		TreeLinearLagrange& elem);
+
+	std::vector<double> CallculateDirihletVector(double (*f)(Vector3D&, double t),
+		BiLinearLagrange& elem);
 };
 

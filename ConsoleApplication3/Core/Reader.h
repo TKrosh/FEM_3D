@@ -9,5 +9,6 @@ public:
 	Reader() {};
 
 	void ReadMeshFromFile(const char* FileName, Mesh& TaskMesh);
+	void BuildcubeMesh(const char* FileName, int n);
 };
 

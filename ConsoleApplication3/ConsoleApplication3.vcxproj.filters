@@ -45,7 +45,7 @@
     <ClCompile Include="Core\ElipticProblem.cpp">
       <Filter>Исходные файлы\core</Filter>
     </ClCompile>
-    <ClCompile Include="Core\GiperbolicPrioblem.cpp">
+    <ClCompile Include="Core\GiperbolicProblem.cpp">
       <Filter>Исходные файлы\core</Filter>
     </ClCompile>
     <ClCompile Include="Matrix\GlobalMatrix.cpp">
@@ -60,12 +60,36 @@
     <ClCompile Include="Elements\ElipticMaterial.cpp">
       <Filter>Исходные файлы\elements</Filter>
     </ClCompile>
+    <ClCompile Include="Matrix\MatrixSolver.cpp">
+      <Filter>Исходные файлы\Storage</Filter>
+    </ClCompile>
+    <ClCompile Include="Elements\LinearElemTemplate.cpp">
+      <Filter>Исходные файлы\elements</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\BoundryCondition.cpp">
+      <Filter>Исходные файлы\core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="SimpleMesh.txt">
       <Filter>Файлы ресурсов</Filter>
     </Text>
     <Text Include="twoCube.txt">
+      <Filter>Файлы ресурсов</Filter>
+    </Text>
+    <Text Include="PointInsite.txt">
+      <Filter>Файлы ресурсов</Filter>
+    </Text>
+    <Text Include="cube1.txt">
+      <Filter>Файлы ресурсов</Filter>
+    </Text>
+    <Text Include="cube2.txt">
+      <Filter>Файлы ресурсов</Filter>
+    </Text>
+    <Text Include="cube3.txt">
+      <Filter>Файлы ресурсов</Filter>
+    </Text>
+    <Text Include="cube4.txt">
       <Filter>Файлы ресурсов</Filter>
     </Text>
   </ItemGroup>
@@ -91,7 +115,7 @@
     <ClInclude Include="Core\ElipticProblem.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="Core\GiperbolicPrioblem.h">
+    <ClInclude Include="Core\GiperbolicProblem.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="Matrix\GlobalMatrix.h">
@@ -104,6 +128,15 @@
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="Elements\ElipticMaterial.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="Matrix\MatrixSolver.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="Elements\LinearElemTemplate.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\BoundryCondition.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>

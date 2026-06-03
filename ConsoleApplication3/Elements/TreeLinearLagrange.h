@@ -1,26 +1,32 @@
 #pragma once
 #include "../Core/Vector3D.h"
+#include "../Elements/LinearElemTemplate.h"
 #include <iostream>
 #include <vector>
-class TreeLinearLagrange
+class TreeLinearLagrange : public LinearElemTemplate
 {
 public:
-	std::vector<double> w = { 1.0, 1.0, 1.0 , 1.0 ,
-		1.0 , 1.0 , 1.0 , 1.0 };
+	std::vector<double> w = { 0.125, 0.125, 0.125, 0.125,
+							  0.125, 0.125, 0.125, 0.125 };
 
 	double a = 1.0 / sqrt(3);
-	std::vector<Vector3D> quadraturePoints = { Vector3D(-a, -a, -a),
-	Vector3D(-a, -a, a), Vector3D(-a, a, -a), Vector3D(-a, a, a),
-	Vector3D(a, -a, -a), Vector3D(a, -a, a),Vector3D(a, a, -a),
-	Vector3D(a, a, a) };
+	std::vector<Vector3D> quadraturePoints = {
+		Vector3D((1 - a) / 2, (1 - a) / 2, (1 - a) / 2),
+		Vector3D((1 - a) / 2, (1 - a) / 2, (1 + a) / 2),
+		Vector3D((1 - a) / 2, (1 + a) / 2, (1 - a) / 2),
+		Vector3D((1 - a) / 2, (1 + a) / 2, (1 + a) / 2),
+		Vector3D((1 + a) / 2, (1 - a) / 2, (1 - a) / 2),
+		Vector3D((1 + a) / 2, (1 - a) / 2, (1 + a) / 2),
+		Vector3D((1 + a) / 2, (1 + a) / 2, (1 - a) / 2),
+		Vector3D((1 + a) / 2, (1 + a) / 2, (1 + a) / 2)
+	};
 
-	int m = w.size(); // amount of weight;
-	int n = 8;
+	//int m = w.size(); // amount of weight;
+	//int n = 8;
+	//std::vector<int> CoordsIndexes;
+	//int MaterialIndex;
 
 	double Hx, Hy, Hz, jacobian;
-
-	std::vector<int> CoordsIndexes;
-	int MaterialIndex;
 
 	TreeLinearLagrange(std::vector<int> coordsIndexes, int material, double hx, double hy, double hz);
 

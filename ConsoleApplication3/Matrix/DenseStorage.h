@@ -1,6 +1,8 @@
 #pragma once
 #include <vector>
 #include "../Elements/TreeLinearLagrange.h"
+#include "../Elements/BiLinearLagrange.h"
+#include "../Elements/LinearElemTemplate.h"
 class DenseStorage
 {
 public:
@@ -18,8 +20,8 @@ public:
 	void AddLocalMatrix(TreeLinearLagrange& elem, double** LocalMatrix);
 	void AddToRightPart(TreeLinearLagrange& elem, std::vector<double> v);
 
-	//void AddDirihletBoundary(int index, double ug);
-	//void AddNeumannBoundary(int index, double theta);
-	//void AddRobinBoundary(int index, double u_Betta, double betta);
+	void AddDirihletBoundary(BiLinearLagrange& elem, std::vector<double> v);
+	void AddNeumannBoundary(int index, double theta); // in process
+	void AddRobinBoundary(int index, double u_Betta, double betta); // in process
 };
 

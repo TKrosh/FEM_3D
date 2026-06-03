@@ -29,9 +29,10 @@ void Mesh::SetNumberOfBoundaryElements(int n)
 	BoundaryElements.reserve(n);
 }
 
-void Mesh::AddBoundaryElement(std::vector<int> indexes, int material, int BoundaryIndex)
+void Mesh::AddBoundaryElement(std::vector<int> indexes, int material, int BoundaryIndex, 
+	Vector3D& e1, Vector3D& e2)
 {
-	BoundaryElements.emplace_back(BiLinearLagrange(indexes, material, BoundaryIndex));
+	BoundaryElements.emplace_back(BiLinearLagrange(indexes, material, BoundaryIndex, e1, e2));
 }
 
 void Mesh::ShowInfo()
@@ -52,7 +53,8 @@ void Mesh::ShowInfo()
 	}
 }
 
-Vector3D Mesh::PointToGlobal(Vector3D p, TreeLinearLagrange& elem)
+
+Vector3D Mesh::PointToGlobal(Vector3D p, LinearElemTemplate& elem)
 {
 	Vector3D result(0.0, 0.0, 0.0);
 	for (int i = 0; i < elem.n; ++i)
