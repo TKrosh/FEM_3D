@@ -36,6 +36,7 @@ public:
 		for (int i = 0; i < elem.CoordsIndexes.size(); i++) os << elem.CoordsIndexes[i] << " ";
 		os << std::endl << "(Material: " << elem.MaterialIndex << ") ";
 		os << "hx = " << elem.Hx << " hy = " << elem.Hy << " hz = " << elem.Hz << std::endl;
+		os << "min index  = " << elem.minCoord << std::endl;
 		os << "--------------------";
 
 		return os;

@@ -11,7 +11,7 @@ public:
 	std::vector<double> rightPart;
 
 	DenseStorage() : size(0), matrix(size, std::vector<double>(size, 0.0)), rightPart(size, 0.0) {};
-	DenseStorage(int n) : size(n), matrix(n, std::vector<double>(n, 0.0)), rightPart(size, 0.0) {};
+	DenseStorage(int n, std::vector<int> indexStart) : size(n), matrix(n, std::vector<double>(n, 0.0)), rightPart(size, 0.0) {};
 
 	void multiplicationByVector(std::vector<double>* v);
 	void matrixClear();

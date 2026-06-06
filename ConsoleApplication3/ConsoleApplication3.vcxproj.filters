@@ -69,6 +69,12 @@
     <ClCompile Include="Core\BoundryCondition.cpp">
       <Filter>Исходные файлы\core</Filter>
     </ClCompile>
+    <ClCompile Include="SolveEllipticProblems.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="Matrix\ProfileMatrix.cpp">
+      <Filter>Исходные файлы\Storage</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="SimpleMesh.txt">
@@ -137,6 +143,12 @@
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="Core\BoundryCondition.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="Matrix\ProfileMatrix.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="SolveEllipticProblems.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>

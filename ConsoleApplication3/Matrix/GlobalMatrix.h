@@ -9,7 +9,7 @@ public:
 	StoragePolicy storage;
 
 	GlobalMatrix() : storage() {};
-	GlobalMatrix(int n) : storage(n) {};
+	GlobalMatrix(int n, std::vector<int> indexStart) : storage(n, indexStart) {};
 
 	void multiplicationByVector(std::vector<double>* v)
 	{

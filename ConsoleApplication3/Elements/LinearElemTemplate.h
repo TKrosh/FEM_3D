@@ -4,7 +4,7 @@
 class LinearElemTemplate
 {
 public:
-	int n, m;
+	int n, m, minCoord;
 	std::vector<int> CoordsIndexes;
 	int MaterialIndex;
 

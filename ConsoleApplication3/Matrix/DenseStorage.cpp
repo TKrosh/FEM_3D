@@ -28,8 +28,13 @@ void DenseStorage::test()
 	std::cout << "Global Matrix:" << std::endl;
 	for (int i = 0; i < size; i++)
 	{
-		for (int j = 0; j < size; j++)
-			std::cout  << matrix[i][j]<< "\t  ";
+		for (int j = 0; j <= i; j++)
+		{
+			if (matrix[i][j] == 0)
+				std::cout  << matrix[i][j]<< " ";
+			else
+				std::cout << "*" << " ";
+		}
 		std::cout << std::endl;
 	}
 	std::cout << std::endl;

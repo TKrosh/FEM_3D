@@ -25,13 +25,14 @@ public:
 		Materials = materials;
 		TaskMesh = taskMesh;
 		assembler = Assembler(taskMesh);
-		GlobalSLAU = GlobalMatrix<Storage>(TaskMesh.CountOfVertexes);
-		q.resize(GlobalSLAU.storage.size, 0.0);
+		q.resize(TaskMesh.CountOfVertexes, 0.0);
 		BoundryConditions = boundryConditions;
+		BuildMatrixPortret();
 	};
 
 	void Solve()
 	{
+		
 		int n = 8; //size of local matrix
 		double** G = new double* [n];
 		for (int i = 0; i < n; i++)
@@ -64,6 +65,8 @@ public:
 
 		for (int r = 0; r < n; r++) delete[] M[r];
 		delete[] M;
+		
+		GlobalSLAU.test();
 
 		std::vector<double> BoundaryRightPart;
 		for (int i = 0; i < TaskMesh.CountOfBoundaryElements; i++)
@@ -80,18 +83,40 @@ public:
 			}
 		}
 
-		//GlobalSLAU.test();
 		MatrixSolver<Storage> solver = MatrixSolver<Storage>(10000, 1e-15, GlobalSLAU);
 		q = solver.LOC();
 
 		for (int i = 0; i < TaskMesh.CountOfVertexes; i++)
 		{
 			Vector3D p = TaskMesh.Vertexes[i];
-			if (p.X == 0.5 && p.Y == 0.5 && p.Z == 0.5) {
+			bool specialPoint = true; //p.X == 0.5 && p.Y == 0.5 && p.Z == 0.5;
+			if (specialPoint) {
 				double res_FEM = q[i];
 				double res_real = BoundryConditions[0].Func(p, 0);
 				std::cout << p << ") " << res_FEM << " " << res_real << " " << res_FEM - res_real << std::endl;
 			}
 		}
+	}
+
+	void BuildMatrixPortret()
+	{
+		std::vector<int> line_start;
+		line_start.resize(TaskMesh.CountOfVertexes, -1);
+		for (int i = 0; i < TaskMesh.CountOfElements; i++)
+		{
+			TreeLinearLagrange elem = TaskMesh.Elements[i];
+
+			for (int i : elem.CoordsIndexes)
+			{
+				if (line_start[i] < 0 || elem.minCoord < line_start[i]) line_start[i] = elem.minCoord;
+			}
+		}
+
+		//for (int i : line_start)
+		//{
+		//	std::cout << i << std::endl;
+		//}
+
+		GlobalSLAU = GlobalMatrix<Storage>(TaskMesh.CountOfVertexes, line_start);
 	}
 };

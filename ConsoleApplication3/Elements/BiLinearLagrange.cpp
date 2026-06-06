@@ -5,10 +5,12 @@ BiLinearLagrange::BiLinearLagrange(std::vector<int> coordsIndexes, int material,
 {
 	int CountOfPoints = coordsIndexes.size();
 	CoordsIndexes.reserve(CountOfPoints);
+	minCoord = coordsIndexes[0];
 
 	for (int i = 0; i < CountOfPoints; i++)
 	{
 		CoordsIndexes.emplace_back(coordsIndexes[i]);
+		if (minCoord > coordsIndexes[i]) minCoord = coordsIndexes[i];
 	}
 
 	e1 = _e1;

@@ -142,6 +142,8 @@
     <ClCompile Include="Matrix\MatrixSolver.cpp" />
     <ClCompile Include="Matrix\DenseStorage.cpp" />
     <ClCompile Include="Matrix\GlobalMatrix.cpp" />
+    <ClCompile Include="Matrix\ProfileMatrix.cpp" />
+    <ClCompile Include="SolveEllipticProblems.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="cube1.txt" />
@@ -167,7 +169,9 @@
     <ClInclude Include="Matrix\MatrixSolver.h" />
     <ClInclude Include="Matrix\DenseStorage.h" />
     <ClInclude Include="Matrix\GlobalMatrix.h" />
+    <ClInclude Include="Matrix\ProfileMatrix.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="SolveEllipticProblems.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ConsoleApplication3.rc" />
