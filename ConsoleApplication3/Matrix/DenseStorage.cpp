@@ -33,7 +33,7 @@ void DenseStorage::test()
 			if (matrix[i][j] == 0)
 				std::cout  << matrix[i][j]<< " ";
 			else
-				std::cout << "*" << " ";
+				std::cout << matrix[i][j] << " ";
 		}
 		std::cout << std::endl;
 	}
@@ -44,27 +44,48 @@ void DenseStorage::test()
 	{
 		std::cout << " " << rightPart[i] << " ";
 	}
-
+	std::cout << std::endl;
 }
 
 void DenseStorage::AddLocalMatrix(TreeLinearLagrange& elem, double** LocalMatrix)
 {
-	for (int i = 0; i < elem.n; i++)
+	for (int i = 0; i < elem.n; ++i)
 	{
-		for (int j = 0; j < elem.n; j++)
+		int global_i = elem.CoordsIndexes[i];
+		int free_i = FreeIndex[global_i];
+
+		for (int j = 0; j < elem.n; ++j)
 		{
-			matrix[elem.CoordsIndexes[i]][elem.CoordsIndexes[j]] += LocalMatrix[i][j];
+			int global_j = elem.CoordsIndexes[j];
+			int free_j = FreeIndex[global_j];
+			double val = LocalMatrix[i][j];
+
+			if (free_i != -1 && free_j != -1)
+			{
+				matrix[free_i][free_j] += val;
+			}
+			else if (free_i != -1 && free_j == -1)
+			{
+				double u_j = DirichletValues[global_j];
+				rightPart[free_i] -= val * u_j;
+			}
 		}
 	}
 }
 
 void DenseStorage::AddToRightPart(TreeLinearLagrange& elem, std::vector<double> v)
 {
-	for (int i = 0; i < elem.n; i++)
+	for (int i = 0; i < elem.n; ++i)
 	{
-		rightPart[elem.CoordsIndexes[i]] += v[i];
+		int global_i = elem.CoordsIndexes[i];
+		int free_i = FreeIndex[global_i];
+		if (free_i != -1)
+		{
+			rightPart[free_i] += v[i];
+		}
 	}
 }
+
 
 void DenseStorage::AddDirihletBoundary(BiLinearLagrange& elem, std::vector<double> v)
 {

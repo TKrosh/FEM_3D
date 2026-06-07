@@ -3,6 +3,7 @@
 #include "../Elements/TreeLinearLagrange.h"
 #include "../Elements/BiLinearLagrange.h"
 #include "../Elements/LinearElemTemplate.h"
+#include <map>
 
 class ProfileMatrix
 {
@@ -16,10 +17,15 @@ public:
 	// low triangle
 	std::vector<double> al;
 
+	std::map<int, double> DirichletValues;
+	std::vector<int> FreeIndex;
 	// upper triangle, we would need this if the matrix were not symmetric.
 	//std::vector<double> au;
 
-	ProfileMatrix(int n, std::vector<int> indexStart);
+	ProfileMatrix(int n,
+		std::vector<int> indexStart,
+		std::map<int, double> dirichletValues,
+		std::vector<int> freeIndex);
 	ProfileMatrix() : size(0), di(size, 0.0), ia(size, 0.0), al(size, 0.0), rightPart(size, 0.0) {};
 
 	void multiplicationByVector(std::vector<double>* v);

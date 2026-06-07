@@ -13,9 +13,10 @@ double ug(Vector3D& p, double t)
 
 double div_grad(Vector3D& p)
 {
-    //return 0.0;
-    //return 6.0;
     return -cos(p.X);
+    //return 0.0;
+    //return 0.0;
+
 }
 
 double lambda(Vector3D& p)
@@ -49,11 +50,11 @@ int SolveEllipticProblems()
     }
 
     //const char* FileName = "SimpleMesh.txt";
-    const char* FileName = "cube1.txt";
+    const char* FileName = "cube4.txt";
     reader.ReadMeshFromFile(FileName, TaskMesh);
     //TaskMesh.ShowInfo();
 
-    ElipticProblem<DenseStorage> Solver = ElipticProblem<DenseStorage>(
+    ElipticProblem<ProfileMatrix> Solver = ElipticProblem<ProfileMatrix>(
         {
             ElipticMaterial(lambda, gamma, f)
         },
@@ -63,26 +64,6 @@ int SolveEllipticProblems()
         }
     );
     Solver.Solve();
-    std::cout << std::endl;
-    std::cout << std::endl;
-    std::cout << std::endl;
-    std::cout << std::endl;
-    std::cout << std::endl;
-    std::cout << std::endl;
-    std::cout << std::endl;
-    std::cout << std::endl;
-    std::cout << std::endl;
-    std::cout << "Enother Matrix";
-    ElipticProblem<ProfileMatrix> Solver2 = ElipticProblem<ProfileMatrix>(
-        {
-            ElipticMaterial(lambda, gamma, f)
-        },
-        TaskMesh,
-        {
-            Dirichlet(ug)
-        }
-    );
-    Solver2.Solve();
     
     return 0.0;
 }

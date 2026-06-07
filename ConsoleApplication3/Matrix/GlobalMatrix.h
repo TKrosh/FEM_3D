@@ -1,6 +1,7 @@
 #pragma once
 #include "../Elements/TreeLinearLagrange.h"
 #include "../Elements/BiLinearLagrange.h"
+#include <map>
 
 template<typename StoragePolicy>
 class GlobalMatrix
@@ -9,7 +10,11 @@ public:
 	StoragePolicy storage;
 
 	GlobalMatrix() : storage() {};
-	GlobalMatrix(int n, std::vector<int> indexStart) : storage(n, indexStart) {};
+	GlobalMatrix(int n, 
+		std::vector<int> indexStart, 
+		std::map<int, double> dirichletValues,
+		std::vector<int> freeIndex) :
+		storage(n, indexStart, dirichletValues, freeIndex) {};
 
 	void multiplicationByVector(std::vector<double>* v)
 	{

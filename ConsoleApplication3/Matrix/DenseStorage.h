@@ -3,6 +3,7 @@
 #include "../Elements/TreeLinearLagrange.h"
 #include "../Elements/BiLinearLagrange.h"
 #include "../Elements/LinearElemTemplate.h"
+#include <map>
 class DenseStorage
 {
 public:
@@ -10,8 +11,18 @@ public:
 	std::vector<std::vector<double>> matrix;
 	std::vector<double> rightPart;
 
+	std::map<int, double> DirichletValues;
+	std::vector<int> FreeIndex;
+
 	DenseStorage() : size(0), matrix(size, std::vector<double>(size, 0.0)), rightPart(size, 0.0) {};
-	DenseStorage(int n, std::vector<int> indexStart) : size(n), matrix(n, std::vector<double>(n, 0.0)), rightPart(size, 0.0) {};
+	DenseStorage(int n,
+		std::vector<int> indexStart,
+		std::map<int, double> dirichletValues,
+		std::vector<int> freeIndex) : 
+		size(n), matrix(n, std::vector<double>(n, 0.0)), 
+		rightPart(size, 0.0),
+		DirichletValues(dirichletValues),
+		FreeIndex(freeIndex) {};
 
 	void multiplicationByVector(std::vector<double>* v);
 	void matrixClear();
