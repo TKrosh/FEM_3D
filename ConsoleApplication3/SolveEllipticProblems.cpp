@@ -6,16 +6,16 @@
 
 double ug(Vector3D& p, double t)
 {
-    return cos(p.X);
+    //return cos(p.X);
     //return p.X + p.Y + p.Z;
-    //return p.X * p.X + p.Y * p.Y + p.Z * p.Z;
+    return p.X * p.X + p.Y * p.Y + p.Z * p.Z;
 }
 
 double div_grad(Vector3D& p)
 {
-    return -cos(p.X);
+    //return -cos(p.X);
     //return 0.0;
-    //return 0.0;
+    return 6.0;
 
 }
 
@@ -50,7 +50,7 @@ int SolveEllipticProblems()
     }
 
     //const char* FileName = "SimpleMesh.txt";
-    const char* FileName = "cube4.txt";
+    const char* FileName = "cube3.txt";
     reader.ReadMeshFromFile(FileName, TaskMesh);
     //TaskMesh.ShowInfo();
 

@@ -83,7 +83,6 @@ public:
 	{
 		std::vector du(Size, 0.0);
 		Matrix.GetDiag(&du);
-
 		fNorm = scalarMult(Matrix.storage.rightPart, Matrix.storage.rightPart);
 		//r0
 		CalcResidual(); //(f - Ax0)
@@ -126,6 +125,54 @@ public:
 
 			if (alfa_k < 1e-15) break;
 		}
+		return _x;
+	}
+
+	std::vector<double>CGM_D()
+	{
+		std::vector du(Size, 0.0);
+		Matrix.GetDiag(&du);
+		fNorm = scalarMult(Matrix.storage.rightPart, Matrix.storage.rightPart);
+
+		//r0
+		CalcResidual(); //(f - Ax0)
+		for (int i = 0; i < Size; i++) _r[i] = _r[i] / du[i];
+		Matrix.multiplicationByVector(&_r);
+		for (int i = 0; i < Size; i++) _r[i] = _r[i] / sqrt(du[i]);
+
+		for (int i = 0; i < Size; i++) _z[i] = _r[i];
+		for (int i = 0; i < Size; i++) _x[i] *= sqrt(du[i]);
+		double mistake = sqrt(scalarMult(_r, _r) / fNorm);
+
+		for (int k = 0; k < MaxIters && mistake > Eps; k++)
+		{
+			double mistake_r = scalarMult(_r, _r);
+
+			for (int i = 0; i < Size; i++) _Ax[i] = _z[i] / sqrt(du[i]);
+			Matrix.multiplicationByVector(&_Ax);
+			for (int i = 0; i < Size; i++) _Ax[i] /= du[i];
+			Matrix.multiplicationByVector(&_Ax);
+			for (int i = 0; i < Size; i++) _Ax[i] /= sqrt(du[i]);
+
+			double alfa_k = mistake_r / scalarMult(_Ax, _z);
+			if (alfa_k < 1e-15) break;
+
+			for (int i = 0; i < Size; i++)
+			{
+				_x[i] += alfa_k * _z[i];
+				_r[i] -= alfa_k * _Ax[i];
+			}
+
+			double betta = scalarMult(_r, _r) / mistake_r;
+			for (int i = 0; i < Size; i++)
+			{
+				_z[i] = _r[i] + betta * _z[i];
+			}
+
+			mistake = sqrt(scalarMult(_r, _r) / fNorm);
+		}
+
+		for (int i = 0; i < Size; i++) _x[i] /= sqrt(du[i]);
 		return _x;
 	}
 
