@@ -180,3 +180,9 @@ void ProfileMatrix::AddDirihletBoundary(BiLinearLagrange& elem, std::vector<doub
 {
 
 }
+
+void ProfileMatrix::GetDiag(std::vector<double>* d)
+{
+	for (int i = 0; i < size; i++)
+		(*d)[i] = di[i];
+}

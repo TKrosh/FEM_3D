@@ -50,28 +50,82 @@ public:
 		for (int k = 0; k < MaxIters && mistake > Eps; k++)
 		{
 			double mistake_r = scalarMult(_r, _r);
-			//std::cout << "iter n #" << k << " " 
-			//    << std::uppercase << std::scientific << std::setprecision(15) << mistake << std::endl;
-
 			double scalc_p = scalarMult(_p, _p);
+
 			if (scalc_p < Eps) break;
 			double alfa_k = scalarMult(_p, _r) / scalc_p;
 
-			for (int i = 0; i < Size; i++) _x[i] += alfa_k * _z[i];
-			for (int i = 0; i < Size; i++) _r[i] -= alfa_k * _p[i];
+			for (int i = 0; i < Size; i++) 
+			{
+				_x[i] += alfa_k * _z[i];
+				_r[i] -= alfa_k * _p[i];
+			}
 
 			// A U-1 r
 			for (int i = 0; i < Size; i++) _Ax[i] = _r[i];
 			Matrix.multiplicationByVector(&_Ax);
 			double betta = -(scalarMult(_p, _Ax) / scalc_p);
 
-			for (int i = 0; i < Size; i++) _z[i] = _r[i] + betta * _z[i];
-			for (int i = 0; i < Size; i++) _p[i] = _Ax[i] + betta * _p[i];
+			for (int i = 0; i < Size; i++) 
+			{
+				_z[i] = _r[i] + betta * _z[i];
+				_p[i] = _Ax[i] + betta * _p[i];
+			}
 			mistake = mistake_r - alfa_k * alfa_k * scalc_p;
 
 			if (alfa_k < 1e-15) break;
 		}
 		//std::cout << std::uppercase << std::scientific << std::setprecision(15) << mistake << std::endl;
+		return _x;
+	}
+
+	std::vector<double>LOC_D()
+	{
+		std::vector du(Size, 0.0);
+		Matrix.GetDiag(&du);
+
+		fNorm = scalarMult(Matrix.storage.rightPart, Matrix.storage.rightPart);
+		//r0
+		CalcResidual(); //(f - Ax0)
+		for (int i = 0; i < Size; i++) _r[i] = _r[i] / sqrt(du[i]);
+		//z0
+		for (int i = 0; i < Size; i++) _z[i] = _r[i] / sqrt(du[i]);
+		//p0
+		for (int i = 0; i < Size; i++) _p[i] = _z[i];
+		Matrix.multiplicationByVector(&_p);
+		for (int i = 0; i < Size; i++) _p[i] /= sqrt(du[i]);
+
+		double mistake = sqrt(scalarMult(_r, _r) / fNorm);
+
+		for (int k = 0; k < MaxIters && mistake > Eps; k++)
+		{
+			double mistake_r = scalarMult(_r, _r);
+			double scalc_p = scalarMult(_p, _p);
+
+			if (scalc_p < Eps) break;
+			double alfa_k = scalarMult(_p, _r) / scalc_p;
+
+			for (int i = 0; i < Size; i++)
+			{
+				_x[i] += alfa_k * _z[i];
+				_r[i] -= alfa_k * _p[i];
+			}
+
+			// L-1 A U-1 r
+			for (int i = 0; i < Size; i++) _Ax[i] = _r[i] / sqrt(du[i]);
+			Matrix.multiplicationByVector(&_Ax);
+			for (int i = 0; i < Size; i++) _Ax[i] = _Ax[i] / sqrt(du[i]);
+			double betta = -(scalarMult(_p, _Ax) / scalc_p);
+
+			for (int i = 0; i < Size; i++) 
+			{
+				_z[i] = _r[i] / sqrt(du[i]) + betta * _z[i];
+				_p[i] = _Ax[i] + betta * _p[i];
+			}
+			mistake = mistake_r - alfa_k * alfa_k * scalc_p;
+
+			if (alfa_k < 1e-15) break;
+		}
 		return _x;
 	}
 

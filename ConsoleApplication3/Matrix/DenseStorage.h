@@ -34,5 +34,7 @@ public:
 	void AddDirihletBoundary(BiLinearLagrange& elem, std::vector<double> v);
 	void AddNeumannBoundary(int index, double theta); // in process
 	void AddRobinBoundary(int index, double u_Betta, double betta); // in process
+
+	void GetDiag(std::vector<double>* d);
 };
 

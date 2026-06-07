@@ -55,5 +55,10 @@ public:
 	{
 		storage.AddRobinBoundary(index, u_Betta, betta);
 	};
+
+	void GetDiag(std::vector<double>* d)
+	{
+		storage.GetDiag(d);
+	};
 };
 

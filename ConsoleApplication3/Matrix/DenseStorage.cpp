@@ -102,6 +102,12 @@ void DenseStorage::AddDirihletBoundary(BiLinearLagrange& elem, std::vector<doubl
 	}
 }
 
+void DenseStorage::GetDiag(std::vector<double>* d)
+{
+	for (int i = 0; i < size; i++)
+		(*d)[i] = matrix[i][i];
+}
+
 //void DenseStorage::AddNeumannBoundary(int index, double theta)
 //{
 //	rightPart[index] += theta;

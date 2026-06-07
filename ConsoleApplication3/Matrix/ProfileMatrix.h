@@ -36,6 +36,8 @@ public:
 	void AddToRightPart(TreeLinearLagrange& elem, std::vector<double> v);
 
 	void AddDirihletBoundary(BiLinearLagrange& elem, std::vector<double> v);
+
+	void GetDiag(std::vector<double>* d);
 	//void AddNeumannBoundary(int index, double theta); // in process
 	//void AddRobinBoundary(int index, double u_Betta, double betta); // in process
 };
