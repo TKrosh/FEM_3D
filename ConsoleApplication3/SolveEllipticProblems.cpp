@@ -19,7 +19,7 @@ double div_grad(Vector3D& p)
 
 }
 
-double lambda(Vector3D& p)
+double lambda1(Vector3D& p)
 {
     return 1.0;
 }
@@ -29,9 +29,9 @@ double gamma(Vector3D& p)
     return 1.0;
 }
 
-double f(Vector3D& p)
+double f(Vector3D& p, double t)
 {
-    return (-lambda(p) * div_grad(p)) + gamma(p) * ug(p, 0);
+    return (-lambda1(p) * div_grad(p)) + gamma(p) * ug(p, 0);
 }
 
 int SolveEllipticProblems()
@@ -56,7 +56,7 @@ int SolveEllipticProblems()
 
     ElipticProblem<ProfileMatrix> Solver = ElipticProblem<ProfileMatrix>(
         {
-            ElipticMaterial(lambda, gamma, f)
+            ElipticMaterial(lambda1, gamma, f)
         },
         TaskMesh,
         {

@@ -28,7 +28,7 @@ void DenseStorage::test()
 	std::cout << "Global Matrix:" << std::endl;
 	for (int i = 0; i < size; i++)
 	{
-		for (int j = 0; j <= i; j++)
+		for (int j = 0; j < size; j++)
 		{
 			if (matrix[i][j] == 0)
 				std::cout  << matrix[i][j]<< " ";
@@ -86,6 +86,83 @@ void DenseStorage::AddToRightPart(TreeLinearLagrange& elem, std::vector<double> 
 	}
 }
 
+void DenseStorage::AddLocalMatrix_Garmonic(TreeLinearLagrange& elem, double** LocalMatrix)
+{
+	for (int i = 0; i < elem.n; ++i)
+	{
+		int global_i = elem.CoordsIndexes[i];
+		int s_ind_i = 2 * global_i;
+		int c_ind_i = s_ind_i + 1;
+		int s_free_i = FreeIndex[s_ind_i];
+		int c_free_i = FreeIndex[c_ind_i];
+
+		for (int j = 0; j < elem.n; ++j)
+		{
+			int global_j = elem.CoordsIndexes[j];
+			int s_ind_j = 2 * global_j;
+			int c_ind_j = s_ind_j + 1;
+			int s_free_j = FreeIndex[s_ind_j];
+			int c_free_j = FreeIndex[c_ind_j];
+
+			// блок ss (p_ij)
+			double p_ij = LocalMatrix[2 * i][2 * j];
+			if (s_free_i != -1 && s_free_j != -1)
+				matrix[s_free_i][s_free_j] += p_ij;
+			else if (s_free_i != -1 && s_free_j == -1)
+				rightPart[s_free_i] -= p_ij * DirichletValues[s_ind_j];
+			//else if (s_free_i == -1 && s_free_j != -1)
+			//	rightPart[s_free_j] -= p_ij * DirichletValues[s_ind_i];
+
+			// блок sc (-c_ij)
+			double mc_ij = LocalMatrix[2 * i][2 * j + 1];
+			if (s_free_i != -1 && c_free_j != -1)
+				matrix[s_free_i][c_free_j] += mc_ij;
+			else if (s_free_i != -1 && c_free_j == -1)
+				rightPart[s_free_i] -= mc_ij * DirichletValues[c_ind_j];
+			//else if (s_free_i == -1 && c_free_j != -1)
+			//	rightPart[c_free_j] -= mc_ij * DirichletValues[s_ind_i];
+
+			// блок cs (+c_ij)
+			double pc_ij = LocalMatrix[2 * i + 1][2 * j];
+			if (c_free_i != -1 && s_free_j != -1)
+				matrix[c_free_i][s_free_j] += pc_ij;
+			else if (c_free_i != -1 && s_free_j == -1)
+				rightPart[c_free_i] -= pc_ij * DirichletValues[s_ind_j];
+			//else if (c_free_i == -1 && s_free_j != -1)
+			//	rightPart[s_free_j] -= pc_ij * DirichletValues[c_ind_i];
+
+			// блок cc (p_ij)
+			double p_ij2 = LocalMatrix[2 * i + 1][2 * j + 1];
+			if (c_free_i != -1 && c_free_j != -1)
+				matrix[c_free_i][c_free_j] += p_ij2;
+			else if (c_free_i != -1 && c_free_j == -1)
+				rightPart[c_free_i] -= p_ij2 * DirichletValues[c_ind_j];
+			//else if (c_free_i == -1 && c_free_j != -1)
+			//	rightPart[c_free_j] -= p_ij2 * DirichletValues[c_ind_i];
+		}
+	}
+}
+
+void DenseStorage::AddToRightPart_Garmonic(TreeLinearLagrange& elem, std::vector<double> v)
+{
+	for (int i = 0; i < elem.n; ++i)
+	{
+		int global_i = elem.CoordsIndexes[i];
+		int s_free_i = FreeIndex[2 * global_i];
+		if (s_free_i != -1)
+		{
+			rightPart[s_free_i] += v[2 * i];
+		}
+
+
+		int c_free_i = FreeIndex[2 * global_i + 1];
+		if (c_free_i != -1)
+		{
+			rightPart[c_free_i] += v[2 * i + 1];
+		}
+	}
+}
+
 
 void DenseStorage::AddDirihletBoundary(BiLinearLagrange& elem, std::vector<double> v)
 {
@@ -107,15 +184,4 @@ void DenseStorage::GetDiag(std::vector<double>* d)
 	for (int i = 0; i < size; i++)
 		(*d)[i] = matrix[i][i];
 }
-
-//void DenseStorage::AddNeumannBoundary(int index, double theta)
-//{
-//	rightPart[index] += theta;
-//}
-//
-//void DenseStorage::AddRobinBoundary(int index, double u_Betta, double betta)
-//{
-//	matrix[index][index] += betta;
-//	rightPart[index] += betta * u_Betta;
-//}
 

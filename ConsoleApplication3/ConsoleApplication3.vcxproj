@@ -131,7 +131,7 @@
     <ClCompile Include="Core\Assembler.cpp" />
     <ClCompile Include="ConsoleApplication3.cpp" />
     <ClCompile Include="Core\ElipticProblem.cpp" />
-    <ClCompile Include="Core\GiperbolicProblem.cpp" />
+    <ClCompile Include="Core\GiperbolicProblemGarmonic.cpp" />
     <ClCompile Include="Core\Mesh.cpp" />
     <ClCompile Include="Core\Reader.cpp" />
     <ClCompile Include="Core\Vector3D.cpp" />
@@ -139,11 +139,13 @@
     <ClCompile Include="Elements\TreeLinearLagrange.cpp" />
     <ClCompile Include="Elements\ElipticMaterial.cpp" />
     <ClCompile Include="Elements\LinearElemTemplate.cpp" />
+    <ClCompile Include="Elements\GiperbolicMaterialGarmonic.cpp" />
     <ClCompile Include="Matrix\MatrixSolver.cpp" />
     <ClCompile Include="Matrix\DenseStorage.cpp" />
     <ClCompile Include="Matrix\GlobalMatrix.cpp" />
     <ClCompile Include="Matrix\ProfileMatrix.cpp" />
     <ClCompile Include="SolveEllipticProblems.cpp" />
+    <ClCompile Include="SolveGiperbolicGarmonicProblem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="cube1.txt" />
@@ -158,7 +160,7 @@
     <ClInclude Include="Core\BoundryCondition.h" />
     <ClInclude Include="Core\Assembler.h" />
     <ClInclude Include="Core\ElipticProblem.h" />
-    <ClInclude Include="Core\GiperbolicProblem.h" />
+    <ClInclude Include="Core\GiperbolicProblemGarmonic.h" />
     <ClInclude Include="Core\Mesh.h" />
     <ClInclude Include="Core\Reader.h" />
     <ClInclude Include="Core\Vector3D.h" />
@@ -166,12 +168,14 @@
     <ClInclude Include="Elements\TreeLinearLagrange.h" />
     <ClInclude Include="Elements\ElipticMaterial.h" />
     <ClInclude Include="Elements\LinearElemTemplate.h" />
+    <ClInclude Include="Elements\GiperbolicMaterialGarmonic.h" />
     <ClInclude Include="Matrix\MatrixSolver.h" />
     <ClInclude Include="Matrix\DenseStorage.h" />
     <ClInclude Include="Matrix\GlobalMatrix.h" />
     <ClInclude Include="Matrix\ProfileMatrix.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="SolveEllipticProblems.h" />
+    <ClInclude Include="SolveGiperbolicGarmonicProblem.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ConsoleApplication3.rc" />

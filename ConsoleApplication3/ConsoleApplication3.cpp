@@ -3,10 +3,12 @@
 #include "Matrix/DenseStorage.h"
 #include "Core/BoundryCondition.h"
 #include "SolveEllipticProblems.h"
+#include "SolveGiperbolicGarmonicProblem.h"
 
 
 int main()
 {
-    SolveEllipticProblems();
+    SolveGiperbolicGarmonicProblems();
+    //SolveEllipticProblems();
     return 0;
 }

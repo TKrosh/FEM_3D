@@ -176,10 +176,6 @@ void ProfileMatrix::AddToRightPart(TreeLinearLagrange& elem, std::vector<double>
 	}
 }
 
-void ProfileMatrix::AddDirihletBoundary(BiLinearLagrange& elem, std::vector<double> v)
-{
-
-}
 
 void ProfileMatrix::GetDiag(std::vector<double>* d)
 {

@@ -35,7 +35,8 @@ public:
 	void AddLocalMatrix(TreeLinearLagrange& elem, double** LocalMatrix);
 	void AddToRightPart(TreeLinearLagrange& elem, std::vector<double> v);
 
-	void AddDirihletBoundary(BiLinearLagrange& elem, std::vector<double> v);
+	void AddLocalMatrix_Garmonic(TreeLinearLagrange& elem, double** LocalMatrix);
+	void AddToRightPart_Garmonic(TreeLinearLagrange& elem, std::vector<double> v);
 
 	void GetDiag(std::vector<double>* d);
 	//void AddNeumannBoundary(int index, double theta); // in process

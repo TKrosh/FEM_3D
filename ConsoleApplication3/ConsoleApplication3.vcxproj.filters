@@ -45,7 +45,7 @@
     <ClCompile Include="Core\ElipticProblem.cpp">
       <Filter>Исходные файлы\core</Filter>
     </ClCompile>
-    <ClCompile Include="Core\GiperbolicProblem.cpp">
+    <ClCompile Include="Core\GiperbolicProblemGarmonic.cpp">
       <Filter>Исходные файлы\core</Filter>
     </ClCompile>
     <ClCompile Include="Matrix\GlobalMatrix.cpp">
@@ -74,6 +74,12 @@
     </ClCompile>
     <ClCompile Include="Matrix\ProfileMatrix.cpp">
       <Filter>Исходные файлы\Storage</Filter>
+    </ClCompile>
+    <ClCompile Include="Elements\GiperbolicMaterialGarmonic.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="SolveGiperbolicGarmonicProblem.cpp">
+      <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -121,7 +127,7 @@
     <ClInclude Include="Core\ElipticProblem.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="Core\GiperbolicProblem.h">
+    <ClInclude Include="Core\GiperbolicProblemGarmonic.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="Matrix\GlobalMatrix.h">
@@ -149,6 +155,12 @@
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="SolveEllipticProblems.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="Elements\GiperbolicMaterialGarmonic.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="SolveGiperbolicGarmonicProblem.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>

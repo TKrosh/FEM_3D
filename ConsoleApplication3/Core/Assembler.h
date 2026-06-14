@@ -17,10 +17,21 @@ public:
 		TreeLinearLagrange& elem,
 		double ** localMass);
 
-	std::vector<double> CalculateLoad(double (*f)(Vector3D&),
+	std::vector<double> CalculateLoad(double (*f)(Vector3D&, double),
 		TreeLinearLagrange& elem);
 
 	std::vector<double> CallculateDirihletVector(double (*f)(Vector3D&, double t),
 		BiLinearLagrange& elem);
+
+	void CalculateStiffness_Garmonic(double (*lambda)(Vector3D&),
+		double (*xi)(Vector3D&),
+		TreeLinearLagrange& elem,
+		double** localStiffness,
+		double omega);
+
+	void CalculateMass_Garmonic(double (*f)(Vector3D&),
+		TreeLinearLagrange& elem,
+		double** localMass,
+		double omega);
 };
 

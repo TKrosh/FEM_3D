@@ -40,6 +40,15 @@ public:
 	{
 		storage.AddToRightPart(elem, v);
 	};
+	void AddLocalMatrix_Garmonic(TreeLinearLagrange& elem, double** LocalMatrix)
+	{
+		storage.AddLocalMatrix_Garmonic(elem, LocalMatrix);
+	};
+
+	void AddToRightPart_Garmonic(TreeLinearLagrange& elem, std::vector<double> v)
+	{
+		storage.AddToRightPart_Garmonic(elem, v);
+	};
 
 	void AddDirihletBoundary(BiLinearLagrange& elem, std::vector<double> v)
 	{

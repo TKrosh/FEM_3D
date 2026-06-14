@@ -8,7 +8,6 @@
 #include "../Elements/BiLinearLagrange.h"
 #include "BoundryCondition.h"
 #include "../Matrix/MatrixSolver.h"
-#include <set>
 #include <map>
 
 template <typename Storage>
@@ -24,7 +23,9 @@ public:
 	std::map<int, double> dirichletValues;
 	std::vector<int> freeIndex;
 
-	ElipticProblem(std::vector<ElipticMaterial> materials, Mesh& taskMesh, std::vector<BoundryCondition> boundryConditions)
+	ElipticProblem(std::vector<ElipticMaterial> materials, 
+		Mesh& taskMesh, 
+		std::vector<BoundryCondition> boundryConditions)
 	{
 		Materials = materials;
 		TaskMesh = taskMesh;
