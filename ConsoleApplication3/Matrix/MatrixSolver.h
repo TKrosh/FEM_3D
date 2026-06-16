@@ -24,11 +24,11 @@ public:
 		Matrix(matrix),
 		Size(matrix.storage.size)
 	{
-		_r.resize(Size, 0.0);
+		_r.resize(Size, 0.0);//
 		_Ax.resize(Size, 0.0);
 		_z.resize(Size, 0.0);
 		_p.resize(Size, 0.0);
-		_x.resize(Size, 0.0);
+		_x.resize(Size, 0.0);//
 	};
 
 	MatrixSolver() : MaxIters(10000), Eps(1e-11), Size(0) {};
@@ -122,7 +122,7 @@ public:
 				_p[i] = _Ax[i] + betta * _p[i];
 			}
 			mistake = mistake_r - alfa_k * alfa_k * scalc_p;
-
+			std::cout << mistake << " " << scalc_p << " " << alfa_k << std::endl;
 			if (alfa_k < 1e-15) break;
 		}
 		return _x;
@@ -137,13 +137,16 @@ public:
 		//r0
 		CalcResidual(); //(f - Ax0)
 		for (int i = 0; i < Size; i++) _r[i] = _r[i] / du[i];
-		Matrix.multiplicationByVector(&_r);
+		Matrix.multiplicationByVector_T(&_r);
 		for (int i = 0; i < Size; i++) _r[i] = _r[i] / sqrt(du[i]);
 
 		for (int i = 0; i < Size; i++) _z[i] = _r[i];
+
 		for (int i = 0; i < Size; i++) _x[i] *= sqrt(du[i]);
+
 		double mistake = sqrt(scalarMult(_r, _r) / fNorm);
 
+		std::cout << "Start" << std::endl;
 		for (int k = 0; k < MaxIters && mistake > Eps; k++)
 		{
 			double mistake_r = scalarMult(_r, _r);
@@ -151,7 +154,7 @@ public:
 			for (int i = 0; i < Size; i++) _Ax[i] = _z[i] / sqrt(du[i]);
 			Matrix.multiplicationByVector(&_Ax);
 			for (int i = 0; i < Size; i++) _Ax[i] /= du[i];
-			Matrix.multiplicationByVector(&_Ax);
+			Matrix.multiplicationByVector_T(&_Ax);
 			for (int i = 0; i < Size; i++) _Ax[i] /= sqrt(du[i]);
 
 			double alfa_k = mistake_r / scalarMult(_Ax, _z);
@@ -170,9 +173,19 @@ public:
 			}
 
 			mistake = sqrt(scalarMult(_r, _r) / fNorm);
+			std::cout << mistake << " " << mistake_r << " " << alfa_k << std::endl;
+			if (mistake_r < 1e-15) break;
 		}
 
 		for (int i = 0; i < Size; i++) _x[i] /= sqrt(du[i]);
+		return _x;
+	}
+
+	std::vector<double>LU()
+	{
+		Matrix.LU_decompose();
+		Matrix.Solve_L(_x);
+		Matrix.Solve_U(_x);
 		return _x;
 	}
 

@@ -20,6 +20,10 @@ public:
 	{
 		storage.multiplicationByVector(v);
 	};
+	void multiplicationByVector_T(std::vector<double>* v)
+	{
+		storage.multiplicationByVector_T(v);
+	};
 
 	void matrixClear()
 	{
@@ -68,6 +72,19 @@ public:
 	void GetDiag(std::vector<double>* d)
 	{
 		storage.GetDiag(d);
+	};
+
+	void LU_decompose()
+	{
+		storage.LU_decompose();
+	};
+	void Solve_L(std::vector<double>& y)
+	{
+		storage.Solve_L(y);
+	};
+	void Solve_U(std::vector<double>& x)
+	{
+		storage.Solve_U(x);
 	};
 };
 

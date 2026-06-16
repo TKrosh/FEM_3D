@@ -9,6 +9,7 @@
 #include "BoundryCondition.h"
 #include "../Matrix/MatrixSolver.h"
 #include <map>
+#include <chrono>
 
 template <typename Storage>
 class GiperbolicProblem
@@ -23,15 +24,12 @@ public:
 	std::vector<double> q;
 	std::map<int, double> dirichletValues;
 	std::vector<int> freeIndex;
-	std::vector<double> Time;
 
 	GiperbolicProblem(std::vector<GiperbolicMaterial> materials,
 		Mesh& taskMesh,
 		std::vector<BoundryCondition> boundryConditions_s, 
-		std::vector<BoundryCondition> boundryConditions_c, 
-		std::vector<double> time)
+		std::vector<BoundryCondition> boundryConditions_c)
 	{
-		Time = time;
 		Materials = materials;
 		TaskMesh = taskMesh;
 		assembler = Assembler(taskMesh);
@@ -47,43 +45,31 @@ public:
 	{
 		int n = 8; //size of local matrix
 		double** G_s = new double* [n];
-		for (int i = 0; i < n; i++)
-		{
-			G_s[i] = new double[n];
-		}
 		double** M_s = new double* [n];
-		for (int i = 0; i < n; i++)
-		{
-			M_s [i] = new double[n];
-		}
-		std::vector<double> RightPart_s;
-
-		double** G_c = new double* [n];
-		for (int i = 0; i < n; i++)
-		{
-			G_c[i] = new double[n];
-		}
 		double** M_c = new double* [n];
-		for (int i = 0; i < n; i++)
-		{
-			M_c [i] = new double[n];
-		}
-		std::vector<double> RightPart_c;
+		double** G_c = new double* [n];
 
 		// matrix for combining matrix
 		double** A = new double* [n * 2];
-		for (int i = 0; i < n * 2; i++)
-		{
-			A[i] = new double[n * 2];
-		}
 
-		// matrix for combining matrix
+		for (int i = 0; i < n; i++)
+		{
+			G_s[i] = new double[n];
+			M_s [i] = new double[n];
+			G_c[i] = new double[n];
+			M_c [i] = new double[n];
+			A[2 * i] = new double[n * 2];
+			A[2 * i + 1] = new double[n * 2];
+		}
+		std::vector<double> RightPart_s;
+		std::vector<double> RightPart_c;
 		std::vector<double> RightPart(n * 2);
 
 		for (int k = 0; k < TaskMesh.CountOfElements; k++)
 		{
 			TreeLinearLagrange elem = TaskMesh.Elements[k];
 
+			//sin
 			assembler.CalculateStiffness_Garmonic(Materials[elem.MaterialIndex].Lambda, 
 				Materials[elem.MaterialIndex].Xi,
 				elem, G_s, Materials[elem.MaterialIndex].Omega);
@@ -92,7 +78,7 @@ public:
 
 			RightPart_s = assembler.CalculateLoad(Materials[elem.MaterialIndex].F_s, elem);
 			//----------------------------------------------------------------------------------
-
+			//cos
 			assembler.CalculateStiffness_Garmonic(Materials[elem.MaterialIndex].Lambda, 
 				Materials[elem.MaterialIndex].Xi,
 				elem, G_c, Materials[elem.MaterialIndex].Omega);
@@ -123,24 +109,33 @@ public:
 		}
 
 		//GlobalSLAU.test(); // show matrix changes
-		for (int r = 0; r < n; r++) delete[] G_s[r];
+		std::cout << std::endl << "Start Solving SLAU..." << std::endl;
+
+		for (int r = 0; r < n; r++)
+		{
+			delete[] G_s[r];
+			delete[] M_s[r];
+			delete[] G_c[r];
+			delete[] M_c[r];
+			delete[] A[2 * r];
+			delete[] A[2 * r + 1];
+		}
 		delete[] G_s;
-		for (int r = 0; r < n; r++) delete[] M_s[r];
 		delete[] M_s;
-
-		for (int r = 0; r < n; r++) delete[] G_c[r];
 		delete[] G_c;
-		for (int r = 0; r < n; r++) delete[] M_c[r];
 		delete[] M_c;
-
-		for (int r = 0; r < n * 2; r++) delete[] A[r];
 		delete[] A;
 
-		MatrixSolver<Storage> solver = MatrixSolver<Storage>(10000, 1e-15, GlobalSLAU);
-		std::vector<double> Free_q = solver.LOC();
+		MatrixSolver<Storage> solver = MatrixSolver<Storage>(10000, 1e-13, GlobalSLAU);
 
-		//for (double res: Free_q) std::cout << res << std::endl;
+		auto start = std::chrono::high_resolution_clock::now();
+		std::vector<double> Free_q = solver.CGM_D();
+		auto stop = std::chrono::high_resolution_clock::now();
+		auto duration = duration_cast<std::chrono::microseconds>(stop - start);
 
+		std::cout << "duration: " << duration.count() << " microseconds" << std::endl;
+
+		// сборка финального вектора
 		for (int i = 0; i < TaskMesh.CountOfVertexes * 2; i++) {
 			if (freeIndex[i] != -1) {
 				q[i] = Free_q[freeIndex[i]];

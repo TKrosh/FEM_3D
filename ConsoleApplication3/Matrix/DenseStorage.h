@@ -25,6 +25,7 @@ public:
 		FreeIndex(freeIndex) {};
 
 	void multiplicationByVector(std::vector<double>* v);
+	void multiplicationByVector_T(std::vector<double>* v);
 	void matrixClear();
 	void test();
 
@@ -39,5 +40,9 @@ public:
 	void AddRobinBoundary(int index, double u_Betta, double betta); // in process
 
 	void GetDiag(std::vector<double>* d);
+
+	void LU_decompose();
+	void Solve_L(std::vector<double>& y);
+	void Solve_U(std::vector<double>& x);
 };
 

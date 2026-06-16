@@ -6,7 +6,7 @@
 #include "Elements/GiperbolicMaterialGarmonic.h"
 
 //koeficents
-double omega = 1;
+double omega = 1.0;
 double lambda(Vector3D& p)
 {
     return 1.0;
@@ -21,16 +21,16 @@ double xi(Vector3D& p)
 }
 
 //u
-double ug_c(Vector3D& p, double t)
-{
-    //double val = p.X + p.Y + p.Z;
-    double val = cos(p.Z);
-    return val;
-}
 double ug_s(Vector3D& p, double t)
 {
     //double val = p.X + p.Y + p.Z;
-    double val = cos(p.X);
+    double val = cos(p.X) + cos(p.Y) + cos(p.Z);
+    return val;
+}
+double ug_c(Vector3D& p, double t)
+{
+    double val = p.X + p.Y + p.Z;
+    //double val = cos(p.X) + cos(p.Y) + cos(p.Z);
     return val;
 }
 
@@ -38,13 +38,13 @@ double ug_s(Vector3D& p, double t)
 double div_grad_s(Vector3D& p, double t)
 {
     //double div_grad_val = 0.0;
-    double div_grad_val = -cos(p.X);
+    double div_grad_val = -(cos(p.X) + cos(p.Y) + cos(p.Z));
     return div_grad_val;
 }
 double div_grad_c(Vector3D& p, double t)
 {
-    //double div_grad_val = 0.0;
-    double div_grad_val = -cos(p.Z);
+    double div_grad_val = 0.0;
+    //double div_grad_val = -(cos(p.X) + cos(p.Y) + cos(p.Z));
     return div_grad_val;
 }
 
@@ -72,17 +72,19 @@ int SolveGiperbolicGarmonicProblems()
 
     if (false)
     {
-        const char* splitFileName = "tmpcube4.txt";
-        reader.BuildcubeMesh(splitFileName, 16);
+        const char* splitFileName = "cubeTest3.txt";
+        reader.BuildcubeMesh(splitFileName, 3);
+        // cube5 содержит 27 элемента на грани
         return 0;
     }
 
     //const char* FileName = "SimpleMesh.txt";
-    const char* FileName = "cube4.txt";
+    const char* FileName = "cube32.txt";
     reader.ReadMeshFromFile(FileName, TaskMesh);
 
-    std::vector<double> time = { 0, 0.5, 1, 1.5, 2 };
-    GiperbolicProblem<DenseStorage> Solver = GiperbolicProblem<DenseStorage>(
+    //GiperbolicProblem<DenseStorage> Solver = GiperbolicProblem<DenseStorage>(
+    //GiperbolicProblem<ProfileMatrix> Solver = GiperbolicProblem<ProfileMatrix>(
+    GiperbolicProblem<ProfileMatrix> Solver = GiperbolicProblem<ProfileMatrix>(
         {
             GiperbolicMaterial(lambda, sigma, xi, f_s, f_c, omega)
         },
@@ -92,8 +94,7 @@ int SolveGiperbolicGarmonicProblems()
         },
         {
             Dirichlet(ug_c)
-        },
-        time
+        }
     );
     Solver.Solve();
 

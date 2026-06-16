@@ -104,6 +104,9 @@
     <Text Include="cube4.txt">
       <Filter>Файлы ресурсов</Filter>
     </Text>
+    <Text Include="cube32.txt" />
+    <Text Include="cube5.txt" />
+    <Text Include="cubeTest3.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Elements\BiLinearLagrange.h">

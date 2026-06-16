@@ -13,6 +13,19 @@ void DenseStorage::multiplicationByVector(std::vector<double>* v)
 		(*v)[i] = sum;
 	}
 }
+void DenseStorage::multiplicationByVector_T(std::vector<double>* v)
+{
+	std::vector<double> tmp = *v;
+	for (int i = 0; i < size; i++)
+	{
+		double sum = 0.0;
+		for (int j = 0; j < size; j++)
+		{
+			sum += matrix[j][i] * tmp[j];
+		}
+		(*v)[i] = sum;
+	}
+}
 
 void DenseStorage::matrixClear()
 {
@@ -185,3 +198,49 @@ void DenseStorage::GetDiag(std::vector<double>* d)
 		(*d)[i] = matrix[i][i];
 }
 
+void DenseStorage::LU_decompose()
+{
+	for (int i = 0; i < size; i++)
+	{
+		for (int j = i + 1; j < size; j++)
+		{
+			double sumL = 0;
+			double sumU = 0;
+
+			for (int k = 0; k < i; k++)
+			{
+				sumU += matrix[i][k] * matrix[k][j];
+				sumL += matrix[j][k] * matrix[k][i];
+			}
+			matrix[i][j] = matrix[i][j] - sumU;
+			matrix[j][i] = (matrix[j][i] - sumL) / matrix[i][i];
+			matrix[j][j] -= matrix[i][j] * matrix[j][i];
+		}
+	}
+}
+
+void DenseStorage::Solve_L(std::vector<double>& y)
+{
+	for (int i = 0; i < size; i++)
+	{
+		double sum = 0.0;
+		for (int j = 0; j < i; j++)
+		{
+			sum += matrix[i][j] * y[j];
+		}
+		y[i] = rightPart[i] - sum;
+	}
+}
+
+void DenseStorage::Solve_U(std::vector<double>& x)
+{
+	for (int i = size - 1; i >= 0; i--)
+	{
+		double sum = 0.0;
+		for (int j = i + 1; j < size; j++)
+		{
+			sum += matrix[i][j] * x[j];
+		}
+		x[i] = (x[i] - sum) / matrix[i][i];
+	}
+}
