@@ -110,7 +110,7 @@ void ProfileMatrix::test()
         for (int j = 0; j < i; ++j)
         {
             if (j >= lineStart)
-                std::cout << al[ia[i] + (j - lineStart)] << " ";
+                std::cout << "* ";// al[ia[i] + (j - lineStart)] << " ";
             else
                 std::cout << 0 << " ";
         }
@@ -125,7 +125,7 @@ void ProfileMatrix::test()
             int count = ia[j + 1] - ia[j];
             int lineStart = j - count;
             if (i >= lineStart)
-                std::cout  << au[ia[j] + (i - lineStart)] << " ";
+                std::cout << "* ";// au[ia[j] + (i - lineStart)] << " ";
             else
                 std::cout << 0;
         }

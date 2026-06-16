@@ -44,9 +44,9 @@ void DenseStorage::test()
 		for (int j = 0; j < size; j++)
 		{
 			if (matrix[i][j] == 0)
-				std::cout  << matrix[i][j]<< " ";
-			else
 				std::cout << matrix[i][j] << " ";
+			else
+				std::cout << "* ";// matrix[i][j] << " ";
 		}
 		std::cout << std::endl;
 	}

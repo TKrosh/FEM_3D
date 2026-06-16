@@ -95,9 +95,10 @@ public:
 		for (int i = 0; i < Size; i++) _p[i] /= sqrt(du[i]);
 
 		double mistake = sqrt(scalarMult(_r, _r) / fNorm);
-
+		int iters;
 		for (int k = 0; k < MaxIters && mistake > Eps; k++)
 		{
+			iters = k;
 			double mistake_r = scalarMult(_r, _r);
 			double scalc_p = scalarMult(_p, _p);
 
@@ -122,9 +123,11 @@ public:
 				_p[i] = _Ax[i] + betta * _p[i];
 			}
 			mistake = mistake_r - alfa_k * alfa_k * scalc_p;
-			std::cout << mistake << " " << scalc_p << " " << alfa_k << std::endl;
+			//std::cout << mistake << " " << scalc_p << " " << alfa_k << std::endl;
 			if (alfa_k < 1e-15) break;
 		}
+		std::cout << "LOC diag" << std::endl;
+		std::cout << "iters = " << iters << std::endl;
 		return _x;
 	}
 
@@ -146,9 +149,11 @@ public:
 
 		double mistake = sqrt(scalarMult(_r, _r) / fNorm);
 
-		std::cout << "Start" << std::endl;
+		int iters;
+		//std::cout << "Start" << std::endl;
 		for (int k = 0; k < MaxIters && mistake > Eps; k++)
 		{
+			iters = k;
 			double mistake_r = scalarMult(_r, _r);
 
 			for (int i = 0; i < Size; i++) _Ax[i] = _z[i] / sqrt(du[i]);
@@ -173,10 +178,11 @@ public:
 			}
 
 			mistake = sqrt(scalarMult(_r, _r) / fNorm);
-			std::cout << mistake << " " << mistake_r << " " << alfa_k << std::endl;
+			//std::cout << mistake << " " << mistake_r << " " << alfa_k << std::endl;
 			if (mistake_r < 1e-15) break;
 		}
-
+		std::cout << "CGM diag" << std::endl;
+		std::cout << "iters = " << iters << std::endl;
 		for (int i = 0; i < Size; i++) _x[i] /= sqrt(du[i]);
 		return _x;
 	}
@@ -186,6 +192,8 @@ public:
 		Matrix.LU_decompose();
 		Matrix.Solve_L(_x);
 		Matrix.Solve_U(_x);
+		std::cout << "LU " << std::endl;
+		std::cout << "iters = " << 1 << std::endl;
 		return _x;
 	}
 

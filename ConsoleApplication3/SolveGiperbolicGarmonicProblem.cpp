@@ -6,14 +6,14 @@
 #include "Elements/GiperbolicMaterialGarmonic.h"
 
 //koeficents
-double omega = 1.0;
+double omega = 0.5;
 double lambda(Vector3D& p)
 {
-    return 1.0;
+    return 2.0;
 }
 double sigma(Vector3D& p)
 {
-    return 1.0;
+    return 3.0;
 }
 double xi(Vector3D& p)
 {
@@ -23,28 +23,28 @@ double xi(Vector3D& p)
 //u
 double ug_s(Vector3D& p, double t)
 {
-    //double val = p.X + p.Y + p.Z;
+    //double val = p.X * p.X + p.Y * p.Y + p.Z * p.Z + 3 * p.X - p.Y + 12 * p.Z - 11;
     double val = cos(p.X) + cos(p.Y) + cos(p.Z);
     return val;
 }
 double ug_c(Vector3D& p, double t)
 {
-    double val = p.X + p.Y + p.Z;
-    //double val = cos(p.X) + cos(p.Y) + cos(p.Z);
+    //double val = p.X * p.X + p.Y * p.Y + p.Z * p.Z + p.X + 2 * p.Y + p.Z + 5;
+    double val = sin(p.X) + sin(p.Y) + sin(p.Z);
     return val;
 }
 
 //div(grad)
 double div_grad_s(Vector3D& p, double t)
 {
-    //double div_grad_val = 0.0;
+    //double div_grad_val = 6.0;
     double div_grad_val = -(cos(p.X) + cos(p.Y) + cos(p.Z));
     return div_grad_val;
 }
 double div_grad_c(Vector3D& p, double t)
 {
-    double div_grad_val = 0.0;
-    //double div_grad_val = -(cos(p.X) + cos(p.Y) + cos(p.Z));
+    //double div_grad_val = 6.0;
+    double div_grad_val = -(sin(p.X) + sin(p.Y) + sin(p.Z));
     return div_grad_val;
 }
 

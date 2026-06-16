@@ -24,6 +24,7 @@ public:
 	std::vector<double> q;
 	std::map<int, double> dirichletValues;
 	std::vector<int> freeIndex;
+	MatrixSolver<Storage> solver;
 
 	GiperbolicProblem(std::vector<GiperbolicMaterial> materials,
 		Mesh& taskMesh,
@@ -126,10 +127,28 @@ public:
 		delete[] M_c;
 		delete[] A;
 
-		MatrixSolver<Storage> solver = MatrixSolver<Storage>(10000, 1e-13, GlobalSLAU);
+		solver = MatrixSolver<Storage>(10000, 1e-15, GlobalSLAU);
+		SolveSLAU(2);
 
+	};
+
+	void SolveSLAU(int SolverType)
+	{
+		std::vector<double> Free_q;
 		auto start = std::chrono::high_resolution_clock::now();
-		std::vector<double> Free_q = solver.CGM_D();
+		switch (SolverType)
+		{
+		case 0:
+			Free_q = solver.LU();
+			break;
+		case 1:
+			Free_q = solver.LOC_D();
+			break;
+		case 2:
+			Free_q = solver.CGM_D();
+			break;
+		}
+
 		auto stop = std::chrono::high_resolution_clock::now();
 		auto duration = duration_cast<std::chrono::microseconds>(stop - start);
 
@@ -168,10 +187,10 @@ public:
 			//	<< fem_s << ", " << real_s << ", " << diff_s << " | "
 			//	<< fem_c << ", " << real_c << ", " << diff_c << "\n";
 		}
-		std::cout << "-----------------------------------------------------------------------------\n";
+		//std::cout << "-----------------------------------------------------------------------------\n";
 		std::cout << "L2 error (s): " << sqrt(l2_s) << "\n";
 		std::cout << "L2 error (c): " << sqrt(l2_c) << "\n";
-	};
+	}
 
 	void BuildMatrixPortret()
 	{
