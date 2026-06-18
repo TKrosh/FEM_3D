@@ -10,6 +10,7 @@
 #include "../Matrix/MatrixSolver.h"
 #include <map>
 #include <chrono>
+#include <algorithm>
 
 template <typename Storage>
 class GiperbolicProblem
@@ -39,7 +40,18 @@ public:
 
 		q.resize(TaskMesh.CountOfVertexes * 2, 0.0);
 		freeIndex.resize(TaskMesh.CountOfVertexes * 2, -2);// i'm not really sure here
-		BuildMatrixPortret();
+
+		int MatrixType = GlobalSLAU.storage.type;
+		switch (MatrixType)
+		{
+		case 0:
+		case 1:
+			BuildMatrixPortret();
+			break;
+		case 2:
+			BuildMatrixPortret_SpareMatrix();
+		}
+
 	}
 
 	void Solve()
@@ -128,8 +140,7 @@ public:
 		delete[] A;
 
 		solver = MatrixSolver<Storage>(10000, 1e-15, GlobalSLAU);
-		SolveSLAU(2);
-
+		SolveSLAU(1);
 	};
 
 	void SolveSLAU(int SolverType)
@@ -151,9 +162,7 @@ public:
 
 		auto stop = std::chrono::high_resolution_clock::now();
 		auto duration = duration_cast<std::chrono::microseconds>(stop - start);
-
 		std::cout << "duration: " << duration.count() << " microseconds" << std::endl;
-
 		// сборка финального вектора
 		for (int i = 0; i < TaskMesh.CountOfVertexes * 2; i++) {
 			if (freeIndex[i] != -1) {
@@ -190,6 +199,7 @@ public:
 		//std::cout << "-----------------------------------------------------------------------------\n";
 		std::cout << "L2 error (s): " << sqrt(l2_s) << "\n";
 		std::cout << "L2 error (c): " << sqrt(l2_c) << "\n";
+		std::cout << "error mid: " << (sqrt(l2_c) + sqrt(l2_s)) / 2.0 << "\n";
 	}
 
 	void BuildMatrixPortret()
@@ -219,6 +229,46 @@ public:
 			}
 		}
 		GlobalSLAU = GlobalMatrix<Storage>(nFree, line_start_free, dirichletValues, freeIndex);
+	}
+
+	void BuildMatrixPortret_SpareMatrix()
+	{
+		int nTotalDOF, nFree;
+		AccountingDirihletBoundaris(nFree, nTotalDOF);
+
+		// Вектор множеств для накопления столбцов каждой строки
+		std::vector<std::vector<int>> rowCols(nFree);
+
+		// Временный массив для отметки добавленных столбцов в текущей строке (для исключения дублей)
+		std::vector<int> marker(nFree, -1); // инициализируем -1, будем записывать туда индекс текущей строки
+
+		for (int iel = 0; iel < TaskMesh.CountOfElements; ++iel) {
+			TreeLinearLagrange& elem = TaskMesh.Elements[iel];
+
+			std::vector<int> dofs;
+			for (int node : elem.CoordsIndexes) {
+				int s_free = freeIndex[2 * node];
+				int c_free = freeIndex[2 * node + 1];
+				if (s_free != -1) dofs.push_back(s_free);
+				if (c_free != -1) dofs.push_back(c_free);
+			}
+
+			for (int row : dofs) {
+				for (int col : dofs) {
+					if (marker[col] != row) {
+						marker[col] = row;
+						rowCols[row].push_back(col);
+					}
+				}
+			}
+		}
+
+		for (auto& cols : rowCols)
+			std::sort(cols.begin(), cols.end());
+
+		std::vector<int> empty = {};
+		GlobalSLAU = GlobalMatrix<Storage>(nFree, empty, dirichletValues, freeIndex);
+		GlobalSLAU.ReservedMemory_SpareStorage(rowCols);
 	}
 
 	void AccountingDirihletBoundaris(int& nFree, int& nTotalDOF)

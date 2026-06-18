@@ -24,11 +24,11 @@ public:
 		Matrix(matrix),
 		Size(matrix.storage.size)
 	{
-		_r.resize(Size, 0.0);//
+		_r.resize(Size, 0.0);
 		_Ax.resize(Size, 0.0);
 		_z.resize(Size, 0.0);
 		_p.resize(Size, 0.0);
-		_x.resize(Size, 0.0);//
+		_x.resize(Size, 0.0);
 	};
 
 	MatrixSolver() : MaxIters(10000), Eps(1e-11), Size(0) {};
@@ -123,7 +123,7 @@ public:
 				_p[i] = _Ax[i] + betta * _p[i];
 			}
 			mistake = mistake_r - alfa_k * alfa_k * scalc_p;
-			//std::cout << mistake << " " << scalc_p << " " << alfa_k << std::endl;
+			//std::cout << mistake << " " << scalc_p << " " << alfa_k << " " << betta << std::endl;
 			if (alfa_k < 1e-15) break;
 		}
 		std::cout << "LOC diag" << std::endl;
@@ -189,6 +189,12 @@ public:
 
 	std::vector<double>LU()
 	{
+		if (Matrix.storage.type == 2)
+		{
+			std::cout << "you can't use LU decomposition for RowColSpareMatrix.";
+			std::cout << "Plese choose anothor type of Global natrix" << std::endl;
+			return _x;
+		}
 		Matrix.LU_decompose();
 		Matrix.Solve_L(_x);
 		Matrix.Solve_U(_x);

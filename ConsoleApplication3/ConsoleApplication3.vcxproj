@@ -144,6 +144,7 @@
     <ClCompile Include="Matrix\DenseStorage.cpp" />
     <ClCompile Include="Matrix\GlobalMatrix.cpp" />
     <ClCompile Include="Matrix\ProfileMatrix.cpp" />
+    <ClCompile Include="Matrix\RowColStorage.cpp" />
     <ClCompile Include="SolveEllipticProblems.cpp" />
     <ClCompile Include="SolveGiperbolicGarmonicProblem.cpp" />
   </ItemGroup>
@@ -154,6 +155,7 @@
     <Text Include="cube4.txt" />
     <Text Include="cube32.txt" />
     <Text Include="cube5.txt" />
+    <Text Include="cubeSMALL10.txt" />
     <Text Include="cubeTest3.txt" />
     <Text Include="PointInsite.txt" />
     <Text Include="SimpleMesh.txt" />
@@ -177,6 +179,7 @@
     <ClInclude Include="Matrix\GlobalMatrix.h" />
     <ClInclude Include="Matrix\ProfileMatrix.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="Matrix\RowColStorage.h" />
     <ClInclude Include="SolveEllipticProblems.h" />
     <ClInclude Include="SolveGiperbolicGarmonicProblem.h" />
   </ItemGroup>

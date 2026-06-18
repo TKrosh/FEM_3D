@@ -16,6 +16,11 @@ public:
 		std::vector<int> freeIndex) :
 		storage(n, indexStart, dirichletValues, freeIndex) {};
 
+	void ReservedMemory_SpareStorage(std::vector<std::vector<int>> rowCols)
+	{
+		storage.ReservedMemory_SpareStorage(rowCols);
+	}
+
 	void multiplicationByVector(std::vector<double>* v)
 	{
 		storage.multiplicationByVector(v);

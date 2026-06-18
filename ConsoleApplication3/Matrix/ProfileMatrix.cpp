@@ -1,6 +1,11 @@
 // ProfileMatrix.cpp
 #include "ProfileMatrix.h"
 
+void ProfileMatrix::ReservedMemory_SpareStorage(std::vector<std::vector<int>> rowCols)
+{
+    std::cout << "we already preperae memory? how are you even get here?" << std::endl;
+}
+
 ProfileMatrix::ProfileMatrix(int n,
     std::vector<int> indexStart,
     std::map<int, double> dirichletValues,
@@ -110,7 +115,7 @@ void ProfileMatrix::test()
         for (int j = 0; j < i; ++j)
         {
             if (j >= lineStart)
-                std::cout << "* ";// al[ia[i] + (j - lineStart)] << " ";
+                std::cout << al[ia[i] + (j - lineStart)] << " ";
             else
                 std::cout << 0 << " ";
         }
@@ -125,7 +130,7 @@ void ProfileMatrix::test()
             int count = ia[j + 1] - ia[j];
             int lineStart = j - count;
             if (i >= lineStart)
-                std::cout << "* ";// au[ia[j] + (i - lineStart)] << " ";
+                std::cout << au[ia[j] + (i - lineStart)] << " ";
             else
                 std::cout << 0;
         }
@@ -134,7 +139,7 @@ void ProfileMatrix::test()
 
     std::cout << "\nRight part:\n";
     for (int i = 0; i < size; ++i)
-        std::cout << rightPart[i];
+        std::cout << rightPart[i] << " ";
     std::cout << "\n";
 }
 

@@ -7,7 +7,7 @@
 class DenseStorage
 {
 public:
-	int size;
+	int size, type = 0;
 	std::vector<std::vector<double>> matrix;
 	std::vector<double> rightPart;
 
@@ -23,6 +23,8 @@ public:
 		rightPart(size, 0.0),
 		DirichletValues(dirichletValues),
 		FreeIndex(freeIndex) {};
+
+	void ReservedMemory_SpareStorage(std::vector<std::vector<int>> rowCols);
 
 	void multiplicationByVector(std::vector<double>* v);
 	void multiplicationByVector_T(std::vector<double>* v);

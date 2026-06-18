@@ -1,5 +1,10 @@
 #include "DenseStorage.h"
 
+void DenseStorage::ReservedMemory_SpareStorage(std::vector<std::vector<int>> rowCols)
+{
+	std::cout << "we already preperae memory? how are you even get here?" << std::endl;
+}
+
 void DenseStorage::multiplicationByVector(std::vector<double>* v)
 {
 	std::vector<double> tmp = *v;
@@ -162,17 +167,10 @@ void DenseStorage::AddToRightPart_Garmonic(TreeLinearLagrange& elem, std::vector
 	{
 		int global_i = elem.CoordsIndexes[i];
 		int s_free_i = FreeIndex[2 * global_i];
-		if (s_free_i != -1)
-		{
-			rightPart[s_free_i] += v[2 * i];
-		}
-
+		if (s_free_i != -1) rightPart[s_free_i] += v[2 * i];
 
 		int c_free_i = FreeIndex[2 * global_i + 1];
-		if (c_free_i != -1)
-		{
-			rightPart[c_free_i] += v[2 * i + 1];
-		}
+		if (c_free_i != -1) rightPart[c_free_i] += v[2 * i + 1];
 	}
 }
 

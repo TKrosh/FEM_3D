@@ -81,6 +81,9 @@
     <ClCompile Include="SolveGiperbolicGarmonicProblem.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="Matrix\RowColStorage.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="SimpleMesh.txt">
@@ -107,6 +110,7 @@
     <Text Include="cube32.txt" />
     <Text Include="cube5.txt" />
     <Text Include="cubeTest3.txt" />
+    <Text Include="cubeSMALL10.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Elements\BiLinearLagrange.h">
@@ -164,6 +168,9 @@
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="SolveGiperbolicGarmonicProblem.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="Matrix\RowColStorage.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>

@@ -5,15 +5,16 @@
 #include "../Elements/LinearElemTemplate.h"
 #include <map>
 
-class ProfileMatrix
+class RowColStorage
 {
 public:
-	int size, type = 1;
+	int size, type = 2;
 	std::vector<double> rightPart;
 	// diag
 	std::vector<double> di;
 	// indexes
 	std::vector<int> ia;
+	std::vector<int> ja;
 	// low triangle
 	std::vector<double> al;
 	// upper triangle
@@ -23,11 +24,11 @@ public:
 
 
 
-	ProfileMatrix(int n,
+	RowColStorage(int n,
 		std::vector<int> indexStart,
 		std::map<int, double> dirichletValues,
 		std::vector<int> freeIndex);
-	ProfileMatrix() : size(0), di(size, 0.0), ia(size, 0.0), al(size, 0.0), au(size, 0.0), rightPart(size, 0.0) {};
+	RowColStorage() : size(0), di(size, 0.0), ia(size, 0.0), al(size, 0.0), au(size, 0.0), rightPart(size, 0.0) {};
 
 	void ReservedMemory_SpareStorage(std::vector<std::vector<int>> rowCols);
 
@@ -44,11 +45,11 @@ public:
 
 	void GetDiag(std::vector<double>* d);
 
-	void LU_decompose();
-	void Solve_L(std::vector<double>& y);
-	void Solve_U(std::vector<double>& x);
 
-	//void AddNeumannBoundary(int index, double theta); // in process
-	//void AddRobinBoundary(int index, double u_Betta, double betta); // in process
+	// we can't make that, because LU decompisition breaks profile
+	// so it doesn't make sense.
+	void LU_decompose() {};
+	void Solve_L(std::vector<double>& y) {};
+	void Solve_U(std::vector<double>& x) {};
 };
 
