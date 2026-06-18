@@ -85,13 +85,13 @@ int SolveGiperbolicGarmonicProblems()
 
     //const char* FileName = "SimpleMesh.txt";
     //const char* FileName = "cubeSMALL10.txt";
-    const char* FileName = "cube5.txt";
+    const char* FileName = "cube1.txt";
     reader.ReadMeshFromFile(FileName, TaskMesh);
 
     //GiperbolicProblem<DenseStorage> Solver = GiperbolicProblem<DenseStorage>(
     //GiperbolicProblem<ProfileMatrix> Solver = GiperbolicProblem<ProfileMatrix>(
     //GiperbolicProblem<RowColStorage> Solver = GiperbolicProblem<RowColStorage>(
-    GiperbolicProblem<RowColStorage> Solver = GiperbolicProblem<RowColStorage>(
+    GiperbolicProblem<ProfileMatrix> Solver = GiperbolicProblem<ProfileMatrix>(
         {
             GiperbolicMaterial(lambda, sigma, xi, f_s, f_c, omega)
         },

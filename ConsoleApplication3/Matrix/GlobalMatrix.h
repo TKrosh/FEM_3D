@@ -79,6 +79,11 @@ public:
 		storage.GetDiag(d);
 	};
 
+	void LU_preconditioning()
+	{
+		storage.LU_preconditioning();
+	}
+
 	void LU_decompose()
 	{
 		storage.LU_decompose();

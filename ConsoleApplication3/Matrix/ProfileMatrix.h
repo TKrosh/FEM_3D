@@ -22,6 +22,10 @@ public:
 	std::vector<int> FreeIndex;
 
 
+	std::vector<double> L;
+	std::vector<double> D;
+	std::vector<double> U;
+
 
 	ProfileMatrix(int n,
 		std::vector<int> indexStart,
@@ -44,6 +48,7 @@ public:
 
 	void GetDiag(std::vector<double>* d);
 
+	void LU_preconditioning();
 	void LU_decompose();
 	void Solve_L(std::vector<double>& y);
 	void Solve_U(std::vector<double>& x);

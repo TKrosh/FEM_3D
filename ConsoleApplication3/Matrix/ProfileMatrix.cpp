@@ -341,26 +341,73 @@ void ProfileMatrix::LU_decompose()
     }
 }
 
+void ProfileMatrix::LU_preconditioning()
+{
+    U.resize(ia[size], 0.0);
+    L.resize(ia[size], 0.0);
+    D.resize(size, 0.0);
+
+    for (int i = 0; i < size; i++)
+    {
+        int i0 = ia[i];
+        int i1 = ia[i + 1];
+        int len = i1 - i0;
+        int firstCol = i - len;
+        double sumD = 0;
+
+        int j = firstCol;
+        for (int ij = i0; ij < i1; ij++, j++)
+        {
+            double sumL = 0;
+            double sumU = 0;
+
+            int j0 = ia[j];
+            int j1 = ia[j + 1];
+            int ki = i0;
+            int kj = j0;
+            int kol_umn_i = ij - i0;
+            int kol_umn_j = j1 - j0;
+            int kol_umn_r = kol_umn_i - kol_umn_j;
+
+            if (kol_umn_r > 0)
+                ki += kol_umn_r;
+            else
+                kj -= kol_umn_r;
+
+            for (; ki < ij; ki++, kj++)
+            {
+                sumL += L[ki] * U[kj];
+                sumU += U[ki] * L[kj];
+            }
+
+            if (au[ij] != 0) U[ij] = au[ij] - sumU;
+            if (al[ij] != 0) L[ij] = (al[ij] - sumL) / di[j];
+            sumD += U[ij] * L[ij];
+        }
+        D[i] = di[i] - sumD;
+    }
+}
+
 void ProfileMatrix::Solve_L(std::vector<double>& y) {
     for (int i = 0; i < size; ++i) {
         double sum = 0.0;
         int start = i - (ia[i + 1] - ia[i]);
         for (int p = ia[i]; p < ia[i + 1]; ++p) {
             int j = start + (p - ia[i]);
-            sum += al[p] * y[j];
+            sum += L[p] * y[j];
         }
-        y[i] = rightPart[i] - sum;
+        y[i] = y[i] - sum;
     }
 }
 
 void ProfileMatrix::Solve_U(std::vector<double>& x) {
     for (int i = size - 1; i >= 0; --i) {
-        x[i] /= di[i];
+        x[i] /= D[i];
 
         int start = i - (ia[i + 1] - ia[i]);
         for (int p = ia[i]; p < ia[i + 1]; ++p) {
             int j = start + (p - ia[i]);
-            x[j] -= au[p] * x[i];
+            x[j] -= U[p] * x[i];
         }
     }
 }

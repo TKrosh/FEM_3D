@@ -43,6 +43,8 @@ public:
 
 	void GetDiag(std::vector<double>* d);
 
+	void LU_preconditioning();
+
 	void LU_decompose();
 	void Solve_L(std::vector<double>& y);
 	void Solve_U(std::vector<double>& x);

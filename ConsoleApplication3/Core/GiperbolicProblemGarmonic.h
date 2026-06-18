@@ -140,7 +140,7 @@ public:
 		delete[] A;
 
 		solver = MatrixSolver<Storage>(10000, 1e-15, GlobalSLAU);
-		SolveSLAU(1);
+		SolveSLAU(3);
 	};
 
 	void SolveSLAU(int SolverType)
@@ -157,6 +157,12 @@ public:
 			break;
 		case 2:
 			Free_q = solver.CGM_D();
+			break;
+		case 3:
+			Free_q = solver.LOC_LU();
+			break;
+		case 4:
+			Free_q = solver.BCG();
 			break;
 		}
 

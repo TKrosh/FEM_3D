@@ -123,9 +123,6 @@ void RowColStorage::test()
     std::cout << "\n";
 }
 
-
-#include <algorithm>  // для std::lower_bound
-
 void RowColStorage::AddLocalMatrix_Garmonic(TreeLinearLagrange& elem, double** LocalMatrix)
 {
     int n = elem.n; // число узлов в элементе
@@ -299,4 +296,112 @@ void RowColStorage::GetDiag(std::vector<double>* d)
         (*d)[i] = di[i];
 }
 
+void RowColStorage::LU_preconditioning()
+{
+    L.resize(ia[size], 0.0);
+    U.resize(ia[size], 0.0);
+    D.resize(size, 0.0);
+    for (int i = 0; i < size; i++)
+    {
+        double sumD = 0;
+        int i0 = ia[i];
+        int i1 = ia[i + 1];
+        for (int ik = i0; ik < i1; ik++)
+        {
+            double sumL = 0, sumU = 0;
+            int ij = ja[ik]; // is a column that we need to multiply on
+            int j0 = ia[ij];
+            int j1 = ia[ij + 1];
+
+            int i_start = i0;
+            int j_start = j0;
+
+            int amount_mult_in_col = j1 - j0;
+            int amount_mult_in_line = ik - i0;
+            int razn_mult = amount_mult_in_col - amount_mult_in_line;
+
+            if (razn_mult > 0)
+            {
+                j_start += razn_mult;
+            }
+            else
+            {
+                i_start -= razn_mult;
+            }
+
+            for (; i_start < ik; i_start++, j_start++)
+            {
+                //cout << i_start << "(" << ja[i_start] << ")" << " " << j_start << "(" << ja[j_start] << ")" << endl;
+                if (ja[i_start] == ja[j_start])
+                {
+                    sumL += L[i_start] * U[j_start];
+                    sumU += L[j_start] * U[i_start];
+                }
+            }
+            U[ik] = au[ik] - sumU;
+            L[ik] = (al[ik] - sumL) / di[ij];
+            sumD += U[ik] * L[ik];
+        }
+        D[i] = di[i] - sumD;
+    }
+}
+
+void RowColStorage::Solve_L(std::vector<double>& y)
+{
+    for (int i = 0; i < size; i++)
+    {
+        double sum = 0.0;
+        for (int k = ia[i]; k < ia[i + 1]; ++k) 
+        {
+            int j = ja[k];
+            if (j < i)
+                sum += L[k] * y[j];
+        }
+        y[i] = (y[i] - sum);
+    }
+}
+
+void RowColStorage::Solve_U(std::vector<double>& x)
+{
+    for (int i = size - 1; i >= 0; --i) {
+        double sum = 0.0;
+        for (int k = ia[i]; k < ia[i + 1]; ++k) {
+            int j = ja[k];
+            if (j > i)
+                sum += U[k] * x[j];
+        }
+        x[i] = (x[i] - sum) / D[i];
+    }
+}
+
+void RowColStorage::Solve_L_Transope(std::vector<double>& y)
+{
+    //we change L to U, becouse matrix A was transpose
+    for (int i = 0; i < size; i++)
+    {
+        int i0 = ia[i];
+        int i1 = ia[i + 1];
+        for (int j = i0; j < i1; j++)
+        {
+            int ij = ja[j];
+            y[i] -= U[j] * y[ij];
+        }
+        y[i] /= D[i];
+    }
+}
+
+void RowColStorage::Solve_U_Transope(std::vector<double>& x)
+{
+    //we change U to L, becouse matrix A was transpose
+    for (int i = size - 1; i >= 0; i--)
+    {
+        int i0 = ia[i];
+        int i1 = ia[i + 1];
+        for (int j = i0; j < i1; j++)
+        {
+            int ij = ja[j];
+            x[ij] -= L[j] * x[i];
+        }
+    }
+}
 

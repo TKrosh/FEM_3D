@@ -4,6 +4,7 @@
 #include "../Elements/BiLinearLagrange.h"
 #include "../Elements/LinearElemTemplate.h"
 #include <map>
+#include <algorithm>
 
 class RowColStorage
 {
@@ -22,7 +23,10 @@ public:
 	std::map<int, double> DirichletValues;
 	std::vector<int> FreeIndex;
 
-
+	// for preconditioning
+	std::vector<double> L;
+	std::vector<double> D;
+	std::vector<double> U;
 
 	RowColStorage(int n,
 		std::vector<int> indexStart,
@@ -45,11 +49,15 @@ public:
 
 	void GetDiag(std::vector<double>* d);
 
+	void LU_preconditioning();
+	void Solve_L(std::vector<double>& y);
+	void Solve_U(std::vector<double>& x);
+	void Solve_L_Transope(std::vector<double>& y);
+	void Solve_U_Transope(std::vector<double>& x);
 
 	// we can't make that, because LU decompisition breaks profile
 	// so it doesn't make sense.
 	void LU_decompose() {};
-	void Solve_L(std::vector<double>& y) {};
-	void Solve_U(std::vector<double>& x) {};
+
 };
 
