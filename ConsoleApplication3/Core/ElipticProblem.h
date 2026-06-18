@@ -90,7 +90,7 @@ public:
 		//}
 
 		MatrixSolver<Storage> solver = MatrixSolver<Storage>(10000, 1e-15, GlobalSLAU);
-		std::vector<double> Free_q = solver.CGM_D();
+		std::vector<double> Free_q = solver.BCG();
 
 		for (int i = 0; i < TaskMesh.CountOfVertexes; i++) {
 			if (freeIndex[i] != -1) {

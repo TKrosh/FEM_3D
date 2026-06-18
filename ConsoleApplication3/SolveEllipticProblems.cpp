@@ -8,14 +8,14 @@ double ug(Vector3D& p, double t)
 {
     //return cos(p.X);
     //return p.X + p.Y + p.Z;
-    return p.X * p.X + p.Y * p.Y + p.Z * p.Z;
+    return cos(p.X) + cos(p.Y) + cos(p.Z);
 }
 
 double div_grad(Vector3D& p)
 {
     //return -cos(p.X);
     //return 0.0;
-    return 6.0;
+    return -(cos(p.X) + cos(p.Y) + cos(p.Z));
 
 }
 
@@ -54,7 +54,9 @@ int SolveEllipticProblems()
     reader.ReadMeshFromFile(FileName, TaskMesh);
     //TaskMesh.ShowInfo();
 
-    ElipticProblem<ProfileMatrix> Solver = ElipticProblem<ProfileMatrix>(
+    //ElipticProblem<ProfileMatrix> Solver = ElipticProblem<ProfileMatrix>(
+    //ElipticProblem<ProfileMatrix> Solver = ElipticProblem<ProfileMatrix>(
+    ElipticProblem<DenseStorage> Solver = ElipticProblem<DenseStorage>(
         {
             ElipticMaterial(lambda1, gamma, f)
         },

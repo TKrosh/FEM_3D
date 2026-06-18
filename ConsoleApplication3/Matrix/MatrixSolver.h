@@ -314,7 +314,6 @@ public:
 		return _x;
 	}
 
-
 	//f - Ax
 	void CalcResidual()
 	{
