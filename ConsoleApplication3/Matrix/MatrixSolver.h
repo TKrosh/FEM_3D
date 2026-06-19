@@ -180,7 +180,7 @@ public:
 			}
 			//mistake = mistake_r - alfa_k * alfa_k * scalc_p;
 			mistake = sqrt(scalarMult(_r, _r) / fNorm);
-			std::cout << mistake << " " << scalc_p << " " << alfa_k << " " << betta << std::endl;
+			//std::cout << mistake << " " << scalc_p << " " << alfa_k << " " << betta << std::endl;
 			if (alfa_k < 1e-15) break;
 		}
 		std::cout << "LOC LU" << std::endl;
@@ -321,10 +321,10 @@ public:
 		CalcResidual(); //(f - Ax0)
 
 		std::vector<double> _r0 = _r;
-		std::vector<double> _v = _p;
-		std::vector<double> _s;
+		std::vector<double> _v(Size, 0.0); // = _p
+		std::vector<double> _s(Size, 0.0);
 
-		double ro_last = 1, alfa = 1, omega = 1;
+		double ro_last = 1, alfa_k = 1, omega = 1;
 
 		double mistake = sqrt(scalarMult(_r, _r) / fNorm);
 		int iters;
@@ -332,14 +332,15 @@ public:
 		{
 			iters = k;
 			double ro = scalarMult(_r0, _r);
-			if (ro < 1e-15) break;
-			double betta = (ro / ro_last) * (alfa / omega);
+			if (abs(ro) < 1e-15) break;
+			double betta = (ro / ro_last) * (alfa_k / omega);
 
-			for (int i = 0; i < Size; i++) _p[i] = _r[i] + betta * (_p[i] - omega * _v[i]);
+			for (int i = 0; i < Size; i++) 
+				_p[i] = _r[i] + betta * (_p[i] - omega * _v[i]);
 			for (int i = 0; i < Size; i++) _v[i] = _p[i];
 			Matrix.multiplicationByVector(&_v);
-			double alfa_k = ro / scalarMult(_r0, _v);
-			if (alfa_k < 1e-15) break;
+			alfa_k = ro / scalarMult(_r0, _v);
+			if (abs(alfa_k) < 1e-15) break;
 
 			for (int i = 0; i < Size; i++)
 			{
@@ -349,7 +350,7 @@ public:
 			}
 			Matrix.multiplicationByVector(&_Ax);
 			omega = scalarMult(_Ax, _s) / scalarMult(_Ax, _Ax);
-			if (omega < 1e-15) break;
+			if (abs(omega) < 1e-15) break;
 
 			for (int i = 0; i < Size; i++)
 			{
@@ -357,9 +358,12 @@ public:
 				_r[i] = _s[i] - omega * _Ax[i];
 			}
 			mistake = sqrt(scalarMult(_r, _r) / fNorm);
- 		}
+			//std::cout << mistake << " " << omega << " " << alfa_k << " " << betta << std::endl;
+			
+			ro_last = ro;
+		}
 
-		std::cout << "BiCGStab" << std::endl;
+		std::cout << "BCG Stab" << std::endl;
 		std::cout << "iters = " << iters << std::endl;
 		return _x;
 	}
@@ -385,4 +389,16 @@ public:
 			res += x[i] * y[i];
 		return res;
 	};
+
+	void ClearParmets()
+	{
+		for (int i = 0; i < Size; i++)
+		{
+			_r[i] = 0.0;
+			_Ax[i] = 0.0;
+			_z[i] = 0.0;
+			_p[i] = 0.0;
+			_x[i] = 0.0;
+		}
+	}
 };

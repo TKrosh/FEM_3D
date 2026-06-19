@@ -7,18 +7,18 @@
 #include "Elements/GiperbolicMaterialGarmonic.h"
 
 //koeficents
-double omega = 1.25E+02;
+double omega = 1.00E-01;
 double lambda(Vector3D& p)
 {
-    return 1.50E+05;
+    return 4.00E+05;
 }
 double sigma(Vector3D& p)
 {
-    return 1.00E+04;
+    return 5.00E+04;
 }
 double xi(Vector3D& p)
 {
-    return 5.00E-11;
+    return 1.00E-10;
 }
 
 //u
@@ -85,7 +85,7 @@ int SolveGiperbolicGarmonicProblems()
 
     //const char* FileName = "SimpleMesh.txt";
     //const char* FileName = "cubeSMALL10.txt";
-    const char* FileName = "cube32.txt";
+    const char* FileName = "cube5.txt";
     reader.ReadMeshFromFile(FileName, TaskMesh);
 
     //GiperbolicProblem<DenseStorage> Solver = GiperbolicProblem<DenseStorage>(

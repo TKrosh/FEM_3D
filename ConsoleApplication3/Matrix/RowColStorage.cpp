@@ -51,19 +51,18 @@ void RowColStorage::multiplicationByVector(std::vector<double>* v)
 void RowColStorage::multiplicationByVector_T(std::vector<double>* v)
 {
     std::vector<double> tmp = *v;
-    for (int i = 0; i < size; i++)
-    {
-        double sum = 0.0;
-        for (int k = ia[i]; k < ia[i + 1]; k++)
-        {
-            int j = ja[k]; // is a index in vector x that we need to multiply on
+    std::vector<double> res(size, 0.0);
+    for (int i = 0; i < size; ++i) {
+        res[i] += di[i] * tmp[i];
+        for (int k = ia[i]; k < ia[i + 1]; ++k) {
+            int j = ja[k];
             if (j < i)
-                sum += au[k] * tmp[j];
+                res[j] += al[k] * tmp[i];
             else if (j > i)
-                sum += al[k] * tmp[j];
+                res[j] += au[k] * tmp[i];    
         }
-        (*v)[i] = tmp[i] * di[i] + sum;
     }
+    *v = res;
 }
 
 void RowColStorage::matrixClear()

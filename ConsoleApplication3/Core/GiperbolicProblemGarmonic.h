@@ -140,6 +140,12 @@ public:
 		delete[] A;
 
 		solver = MatrixSolver<Storage>(10000, 1e-15, GlobalSLAU);
+		SolveSLAU(1);
+		std::cout << "----------------------------------" << std::endl;
+		solver.ClearParmets();
+		SolveSLAU(2);
+		std::cout << "----------------------------------" << std::endl;
+		solver.ClearParmets();
 		SolveSLAU(3);
 	};
 
@@ -153,16 +159,16 @@ public:
 			Free_q = solver.LU();
 			break;
 		case 1:
-			Free_q = solver.LOC_D();
+			Free_q = solver.LOC_LU();
 			break;
 		case 2:
 			Free_q = solver.CGM_D();
 			break;
 		case 3:
-			Free_q = solver.LOC_LU();
+			Free_q = solver.BCG_STAB();
 			break;
 		case 4:
-			Free_q = solver.BCG_STAB();
+			Free_q = solver.LOC_D();
 			break;
 		}
 
