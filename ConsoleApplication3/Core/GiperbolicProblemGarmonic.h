@@ -162,7 +162,7 @@ public:
 			Free_q = solver.LOC_LU();
 			break;
 		case 4:
-			Free_q = solver.BCG();
+			Free_q = solver.BCG_STAB();
 			break;
 		}
 

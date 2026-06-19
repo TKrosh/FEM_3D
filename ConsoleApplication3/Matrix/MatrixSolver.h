@@ -314,6 +314,56 @@ public:
 		return _x;
 	}
 
+	std::vector<double>BCG_STAB()
+	{
+		fNorm = scalarMult(Matrix.storage.rightPart, Matrix.storage.rightPart);
+		// r0
+		CalcResidual(); //(f - Ax0)
+
+		std::vector<double> _r0 = _r;
+		std::vector<double> _v = _p;
+		std::vector<double> _s;
+
+		double ro_last = 1, alfa = 1, omega = 1;
+
+		double mistake = sqrt(scalarMult(_r, _r) / fNorm);
+		int iters;
+		for (int k = 0; k < MaxIters && mistake > Eps; k++)
+		{
+			iters = k;
+			double ro = scalarMult(_r0, _r);
+			if (ro < 1e-15) break;
+			double betta = (ro / ro_last) * (alfa / omega);
+
+			for (int i = 0; i < Size; i++) _p[i] = _r[i] + betta * (_p[i] - omega * _v[i]);
+			for (int i = 0; i < Size; i++) _v[i] = _p[i];
+			Matrix.multiplicationByVector(&_v);
+			double alfa_k = ro / scalarMult(_r0, _v);
+			if (alfa_k < 1e-15) break;
+
+			for (int i = 0; i < Size; i++)
+			{
+				double val =  _r[i] - alfa_k * _v[i];
+				_s[i] = val;
+				_Ax[i] = val; // _Ax = t
+			}
+			Matrix.multiplicationByVector(&_Ax);
+			omega = scalarMult(_Ax, _s) / scalarMult(_Ax, _Ax);
+			if (omega < 1e-15) break;
+
+			for (int i = 0; i < Size; i++)
+			{
+				_x[i] += omega * _s[i] + alfa_k * _p[i];
+				_r[i] = _s[i] - omega * _Ax[i];
+			}
+			mistake = sqrt(scalarMult(_r, _r) / fNorm);
+ 		}
+
+		std::cout << "BiCGStab" << std::endl;
+		std::cout << "iters = " << iters << std::endl;
+		return _x;
+	}
+
 	//f - Ax
 	void CalcResidual()
 	{
